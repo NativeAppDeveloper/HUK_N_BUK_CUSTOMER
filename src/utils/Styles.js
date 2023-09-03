@@ -17,13 +17,19 @@ export const colors={
 }
 
 export const fonts={
+    // 800
     bold:'Inter-Bold',
+    // 700
     extraBold:'Inter-ExtraBold',
+    // 600
     semibold:'Inter-SemiBold',
+
     medium:'Inter-Medium',
+    // 400
     regular:'Inter-Regular',
+    // 300
     light:'Inter-Light',
-    extraLight:'Inter-ExtraLigh',
+    extraLight:'Inter-ExtraLight',
     thin:'Inter-Thin',
 
     // urbanExtraBold:'Urbanist-Medium',

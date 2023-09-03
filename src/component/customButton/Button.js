@@ -5,7 +5,7 @@ import { moderateVerticalScale } from 'react-native-size-matters'
 import Text18 from '../customText/Text18'
 
 export default function Button(props) {
-  let {text,width,mt,onPress,backgroundColor}=props
+  let {text,width,mt,onPress,backgroundColor,btnTextClr}=props
   return (
     <TouchableOpacity
     onPress={onPress}
@@ -21,6 +21,8 @@ export default function Button(props) {
     }}
     >
       <Text18
+      mt={1}
+      color={btnTextClr}
       text={text?text:'Continue'}/>
     </TouchableOpacity>
   )

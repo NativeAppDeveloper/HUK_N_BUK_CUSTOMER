@@ -27,10 +27,10 @@ const Step2 = () => {
                 {
                     //#region  headet text
                     <View style={{ marginTop: moderateVerticalScale(20) }} >
-                        <Text24 text={'Gender'} />
+                        <Text24 color={colors.theme} text={'Gender'} />
                         <Text14
                             fontFamily={fonts.regular}
-                            color={colors.gray} text={`Select Gender`} />
+                            color={colors.secondry} text={`Select Gender`} />
                     </View>
                     //#endregion
                 }
@@ -49,9 +49,9 @@ const Step2 = () => {
                                             key={ind}
                                         >
                                             <Text14
-                                                fontFamily={fonts.regular}
+                                                color={colors.theme}
                                                 text={data.lable} />
-                                            <CheckIcon size={moderateScale(20)} color={colors.theme} />
+                                           {select==ind&& <CheckIcon size={moderateScale(20)} color={colors.theme} />}
                                         </TouchableOpacity>
                                     )
                                 })

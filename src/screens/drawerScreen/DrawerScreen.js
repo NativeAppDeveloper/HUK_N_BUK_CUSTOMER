@@ -3,16 +3,19 @@ import { View, Text, ImageBackground, useWindowDimensions, TouchableOpacity, Ima
 import React, { useState } from 'react'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 import { images } from '../../utils/Image'
-import { XMarkIcon } from 'react-native-heroicons/solid'
+import { ChevronRightIcon, XMarkIcon } from 'react-native-heroicons/solid'
 import { CommonStyle, colors, fonts } from '../../utils/Styles'
 import { moderateScale, scale } from 'react-native-size-matters'
 import Text14 from '../../component/customText/Text14'
 import Text18 from '../../component/customText/Text18'
 import { useNavigation } from '@react-navigation/native'
+import { height } from '../../utils/Helper'
+import { useDispatch } from 'react-redux'
 
 
 const DrawerScreen = (props) => {
     // const navigation=useNavigation()
+    const dispatch=useDispatch()
     const { width, height } = useWindowDimensions('screen')
     const drawerData = {
         first: [
@@ -29,7 +32,7 @@ const DrawerScreen = (props) => {
                 title: 'My Rides'
             },
             {
-                name: 'Notification',
+                name: 'Wallet',
                 title: 'Wallet'
             },
         ],
@@ -108,9 +111,13 @@ const DrawerScreen = (props) => {
                                                             borderBottomWidth: index === drawerData[item].length - 1 ? 0 : 0.5,
                                                             padding: moderateScale(10),
                                                             borderColor: colors.placeholderColor,
+                                                            flexDirection:'row',
+                                                            alignItems:'center',
+                                                            justifyContent:'space-between'
                                                         }}
                                                         key={index}>
                                                         <Text14 color={colors.theme} text={data.title} fontFamily={fonts.regular} />
+                                                        <ChevronRightIcon color={colors.placeholderColor} size={moderateScale(20)}/>
                                                     </TouchableOpacity>
                                                 );
                                             })}
@@ -125,9 +132,22 @@ const DrawerScreen = (props) => {
 
 
 
-
+                <View>
+                <TouchableOpacity 
+                onPress={()=>{
+                    dispatch({
+                        type:'CHANGE_STACK',
+                        payload:'AUTH'
+                    })
+                }}
+                style={{borderTopWidth:2,paddingTop:10,width:'90%',alignSelf:'center',alignItems:'center',borderColor:colors.borderC,marginTop:moderateScale(10),marginBottom:moderateScale(40)}}>
+                    <Text14 color={colors.theme} text={'Logout'}/>
+                </TouchableOpacity>
+            </View>
 
             </DrawerContentScrollView>
+
+           
         </ImageBackground>
 
     )
@@ -135,7 +155,7 @@ const DrawerScreen = (props) => {
 
 
 const styles = StyleSheet.create({
-container:{ backgroundColor: "red", },
+container:{ backgroundColor: "#efefed",height:height },
 cancelView:{ width: '90%', alignSelf: 'center', flex: 1 },
 cancelBtn:{ alignItems: 'flex-end', marginTop:Platform.OS=='ios'?moderateScale(5):moderateScale(10) },
 cardContainer:{

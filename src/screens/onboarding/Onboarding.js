@@ -104,9 +104,9 @@ const CustomCarousel = () => {
                 position: 'absolute',
                 bottom: moderateScale(35)
             }}>
-                <Button onPress={()=>btnHandler()} />
+                <Button text={'Login'} onPress={()=>btnHandler()} />
                 <View style={{ flexDirection: 'row', alignSelf: "center", marginTop: moderateScale(15) }}>
-                    <Text14 text={'New user ? '} />
+                    <Text14 fontFamily={fonts.regular} color={colors.gray} text={'New user ? '} />
                     <Text14 text={' Register here'} />
 
                 </View>

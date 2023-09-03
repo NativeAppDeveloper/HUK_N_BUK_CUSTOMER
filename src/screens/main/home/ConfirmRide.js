@@ -27,13 +27,15 @@ import {
 } from 'react-native-heroicons/solid';
 import Button from '../../../component/customButton/Button';
 import Text16 from '../../../component/customText/Text16';
+import {homeFlow} from '../../../utils/localVariable';
+import LocationText from '../../../component/common/LocationText';
 
 export default function ConfirmRide() {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState(0);
   const [offerModal, SetOfferModal] = useState(false);
   const [slectedIndex, setSetlectedIndex] = useState(0);
-  const [findDriver,setFindDriver]=useState(false)
+  const [findDriver, setFindDriver] = useState(false);
   const data = [
     {
       carName: 'Hatchback',
@@ -52,9 +54,13 @@ export default function ConfirmRide() {
     },
   ];
 
+  console.log(homeFlow.flow);
+
   return (
     <View style={{flex: 1, justifyContent: 'flex-end'}}>
       <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
+      <LocationText/>
+
       <View
         style={{
           height: moderateScale(170),
@@ -86,24 +92,37 @@ Pickup We Are Ready For You`}
             <Text14 color={colors.yellow} text={'Search'} />
           </View>
         </ScrollView>
-        <Button 
-         text={'Confirm'}
-         onPress={()=>setFindDriver(true)}
-          />
+        <Button
+          text={'Confirm'}
+          onPress={() => {
+            if (homeFlow.flow == 2) {
+              setFindDriver(true);
+              setTimeout(() => {
+                setFindDriver(false);
+                navigation.navigate('DriverList');
+              }, 1000);
+            } else {
+              setFindDriver(true);
+              setTimeout(() => {
+                setFindDriver(false);
+                navigation.navigate('RideStatus');
+              }, 1000);
+            }
+          }}
+        />
       </View>
       <LookingForDriver findDriver={findDriver} setFindDriver={setFindDriver} />
     </View>
   );
 }
 
-const LookingForDriver = ({findDriver,setFindDriver}) => {
+const LookingForDriver = ({findDriver, setFindDriver}) => {
   return (
-    <Modal 
-    transparent
-    statusBarTranslucent
-    visible={findDriver}
-    animationType='slide'
-     >
+    <Modal
+      transparent
+      statusBarTranslucent
+      visible={findDriver}
+      animationType="slide">
       <View
         style={{
           flex: 1,

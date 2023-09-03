@@ -60,7 +60,7 @@ const Language = () => {
                                 </View>}
                                 <View style={{position:'absolute',right:10,flexDirection:'row',alignItems:'center',}}>
                                    {index==2&& <Text12 text={'English'} color={colors.gray}/>}
-                                <CheckIcon color={colors.gray} />
+                                {active==index&&<CheckIcon color={colors.gray} />}
                                 </View>
                             </TouchableOpacity>
                         )

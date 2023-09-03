@@ -29,9 +29,9 @@ const Step5 = () => {
                     //#region  headet text
                     <View style={{ marginTop: moderateVerticalScale(20) }} >
                         <Text24 text={'Enter Your Mobile No.'} />
-                        <Text14
+                        {/* <Text14
                             fontFamily={fonts.regular}
-                            color={colors.gray} text={`Please provide your complete name `} />
+                            color={colors.gray} text={`Please provide your complete name `} /> */}
                     </View>
                     //#endregion
                 }
@@ -42,6 +42,7 @@ const Step5 = () => {
                         //#region Name Components
                         <View style={{ width: '100%' }}>
                             <Input
+                            keyboardType={'numeric'}
                                 placeHolder={'Enter Mobile No.'}
                                 mt={moderateVerticalScale(30)}
                             />
@@ -54,7 +55,7 @@ const Step5 = () => {
                         //#region  Next Button
                         <View>
                             <Button
-                                onPress={() => navigation.navigate('RegistrationComplete')}
+                                onPress={() => navigation.navigate('Otp',{flow:'mobile'})}
                                 width={'100%'}
                                 mt={moderateVerticalScale(20)}
                                 text={'Submit'}
@@ -66,7 +67,7 @@ const Step5 = () => {
 
                     <View style={{ marginTop: moderateScale(30) }}>
                         <Text14 textAlign='center' color={colors.gray} fontFamily={fonts.regular} text={`By regestering, you are agreeing to Mobox’s `} />
-                        <Text style={{ textAlign: 'center', color: "black", fontFamily: fonts.regular }}>Terms & Conditions <Text14 color={colors.gray} text={' and '} />and Privacy and Polcies</Text>
+                        <Text style={{ textAlign: 'center', color: "black", fontFamily: fonts.regular }}>Terms & Conditions <Text14 color={colors.gray} text={' and '} /> Privacy and Polcies</Text>
                     </View>
                 </View>
             </View>

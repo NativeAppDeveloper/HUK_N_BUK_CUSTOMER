@@ -4,11 +4,11 @@ import { moderateScale } from 'react-native-size-matters'
 import { colors, fonts } from '../../utils/Styles'
 
 const Text12=(props)=> {
-  let { lineHeight, color, fontFamily, text ,textAlign,mt} = props
+  let { lineHeight, color, fontFamily, text ,textAlign,mt,fontSize} = props
   return (
     <Text
       style={{
-        fontSize: moderateScale(11),
+        fontSize:fontSize?fontSize: moderateScale(11),
         lineHeight: lineHeight ? lineHeight :moderateScale(12),
         fontFamily: fontFamily ? fontFamily : fonts.medium,
         color: color ? color : colors.black,

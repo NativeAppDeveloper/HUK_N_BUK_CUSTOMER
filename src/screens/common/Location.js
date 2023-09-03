@@ -22,9 +22,10 @@ import Text18 from '../../component/customText/Text18';
 import {icon} from '../../utils/Image';
 import Text12 from '../../component/customText/Text12';
 import Text14 from '../../component/customText/Text14';
-import {MapPinIcon} from 'react-native-heroicons/solid';
+import {MapPinIcon, XMarkIcon} from 'react-native-heroicons/solid';
 import Text16 from '../../component/customText/Text16';
 import { useNavigation } from '@react-navigation/native';
+import { homeFlow } from '../../utils/localVariable';
 
 const Location = ({route}) => {
     const paramData=route?.params
@@ -97,7 +98,7 @@ const Location = ({route}) => {
                 borderRadius: moderateScale(4.5),
               }}></View>
             <View style={{marginLeft: moderateScale(10)}}>
-              <Text12 text={'Pickup location'} />
+              <Text12 fontSize={13} fontFamily={fonts.regular} text={'Pickup location'} />
             </View>
           </View>
 
@@ -118,8 +119,13 @@ const Location = ({route}) => {
                 borderRadius: moderateScale(7.5),
               }}></View>
             <View style={{marginLeft: moderateScale(10)}}>
-              <Text12 text={'Surat Railway Station'} />
+              <Text12 fontSize={13} fontFamily={fonts.regular} text={'Surat Railway Station'} />
             </View>
+              <TouchableOpacity
+              onPress={()=>navigation.goBack()}
+               style={{position:'absolute',right:10,top:5}}>
+            <XMarkIcon color={colors.black}/>
+              </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -133,12 +139,20 @@ const Location = ({route}) => {
           paddingVertical: moderateScale(20),
           flex: 1,
         }}>
-        <Text16 fontFamily={fonts.semibold} text={'    Popular Places'} />
+        <Text16 fontFamily={fonts.semibold} color={colors.theme} text={'    Popular Places'} />
         <ScrollView contentContainerStyle={{marginTop: moderateScale(10)}}>
           {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, ind) => {
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate('BookRide')}
+                onPress={() => {
+                  if(homeFlow?.flow==2){
+                    navigation.navigate('LuggageAllowance')
+
+                  }
+                  else{
+                    navigation.navigate('BookRide')
+                  }
+                }}
                 key={ind}
                 style={{
                   flexDirection: 'row',

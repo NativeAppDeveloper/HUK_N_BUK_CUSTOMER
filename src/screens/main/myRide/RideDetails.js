@@ -28,29 +28,31 @@ import Button from '../../../component/customButton/Button';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RideCancelModal from '../../../component/modal/RideCancelModal';
 import { PlusIcon } from 'react-native-heroicons/solid';
+import { AirbnbRating } from 'react-native-ratings';
+import CancelModal from '../../../component/modal/CancelModal';
 
 const RdieDetails = ({ route }) => {
   const navigation = useNavigation();
   const [outStationIndex, setOutStationIndex] = useState(0);
   const sheetRef = useRef(null);
   const [indexx, setIndex] = useState(0);
-  const [cancel, setCancelRide] = useState(false)
-  const rideStatus = route?.params?.rideStatus
+  const [cancel, setCancelRide] = useState(false);
+  const [cancelStatus, setCancelStatus] = useState(false)
+  const rideStatus = route?.params?.rideStatus;
   console.log(rideStatus, '=-==-=ride satus');
 
   const rideColor = () => {
     switch (rideStatus) {
       case 'Ongoing':
-        return colors.orange
+        return colors.orange;
       case 'Upcoming':
-        return colors.theme
+        return colors.theme;
       case 'Completed':
-        return colors.green
+        return colors.green;
       case 'Cancelled':
-        return colors.red
-
+        return colors.red;
     }
-  }
+  };
 
   const handleSheetChanges = useCallback(index => {
     sheetRef.current?.snapToIndex(index);
@@ -136,7 +138,7 @@ const RdieDetails = ({ route }) => {
           <View
             style={{
               backgroundColor: colors.white,
-              position: 'absolute',
+              // position: 'absolute',
               width: width,
               bottom: 0,
               height: moderateScale(370),
@@ -159,7 +161,7 @@ const RdieDetails = ({ route }) => {
                   <Image
                     resizeMode="contain"
                     style={CommonStyle.img}
-                    source={icon.Car}
+                    source={icon.car1}
                   />
                 </View>
 
@@ -240,7 +242,7 @@ const RdieDetails = ({ route }) => {
                         />
                         <Text style={{ fontSize: 10, fontFamily: fonts.regular }}>
                           {' '}
-                          456 km
+                          4h50m
                         </Text>
                         <Image
                           style={{
@@ -263,7 +265,7 @@ const RdieDetails = ({ route }) => {
                           width: moderateScale(23),
                         }}>
                         <Image
-                          source={icon.currentLocation}
+                          source={icon.location}
                           style={CommonStyle.img}
                         />
                       </View>
@@ -277,7 +279,7 @@ const RdieDetails = ({ route }) => {
                         <Text12
                           fontFamily={fonts.regular}
                           color={colors.gray}
-                          text={'Pick up 12:05PM, 23 Feb'}
+                          text={'Drop off up 12:05PM, 23 Feb'}
                         />
                       </View>
                     </View>
@@ -317,12 +319,12 @@ const RdieDetails = ({ route }) => {
                       <Text14
                         color={colors.theme}
                         mt={1}
-                        text={'333B, Anchorv  ale Link'}
+                        text={'Akshit'}
                       />
                       <Text12
                         fontFamily={fonts.regular}
                         color={colors.gray}
-                        text={'Pick up 12:05PM, 23 Feb'}
+                        text={'4.5'}
                       />
                     </View>
 
@@ -342,6 +344,7 @@ const RdieDetails = ({ route }) => {
                       />
                       <Text12
                         color={colors.theme}
+                        git
                         mt={1}
                         fontFamily={fonts.regular}
                         textAlign={'right'}
@@ -352,207 +355,355 @@ const RdieDetails = ({ route }) => {
                   //#endregion
                 }
 
-                {rideStatus !== "Cancelled" &&
-                  //#region  amnities
-                  <View style={{ paddingHorizontal: scale(10),borderTopWidth:0.5,borderColor:colors.placeholderColor,marginTop:moderateScale(15) }}>
-                    <Text14 text={'Amenities'} />
+                {
+                  rideStatus === 'Completed' && (
+                    //#region rate a driver
+                    <View
+                      style={{
+                        paddingHorizontal: scale(15),
+                        borderTopWidth: 0.5,
+                        marginTop: moderateScale(20),
+                        borderColor: colors.placeholderColor
+                      }}>
+                      <Text14 mt={15} text={'Rated'} />
+                      <AirbnbRating
+                        size={moderateScale(18)}
+                        count={5}
+                        reviews={[]}
+                        ratingContainerStyle={{
+                          alignItems: 'flex-start',
+                        }}
+                        defaultRating={3}
+                        starContainerStyle={{
+                          position: 'absolute',
+                          height: moderateScale(20),
+                        }}
+                      />
 
-                    <View style={{ flexDirection: 'row' }}>
-                      {['Water Bottle', 'Wifi', 'Tissues', 'Newspaper'].map(
-                        (data, ind) => {
-                          return (
-                            <TouchableOpacity
-                              style={{
-                                backgroundColor: colors.bg,
-                                padding: moderateScale(8),
-                                marginRight: moderateScale(10),
-                                borderRadius: 8,
-                                marginTop: moderateScale(10),
-                              }}>
-                              <Text12
-                                text={data}
-                                color={colors.placeholderColor}
-                                mt={1}
-                              />
-                            </TouchableOpacity>
-                          );
-                        },
-                      )}
+                      <Text12
+                        color={colors.secondry}
+                        fontFamily={fonts.regular}
+                        text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
+                      />
                     </View>
-                  </View>
+                  )
                   //#endregion
                 }
 
-                {rideStatus == 'Ongoing' &&
-                  //#region  odometer details
-                  <View
-                    style={{
-                      paddingHorizontal: moderateScale(15),
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      marginTop: moderateScale(10),
-                      borderBottomWidth: 0.5,
-                      borderColor: colors.placeholderColor,
-                      paddingBottom: moderateScale(10),
-                      borderTopWidth: 0.5,
-                      paddingTop: moderateScale(13)
-                    }}>
-                    <View>
+                {
+                  rideStatus !== 'Cancelled' && (
+                    //#region  amnities
+                    <View
+                      style={{
+                        paddingHorizontal: scale(10),
+                        borderTopWidth: 0.5,
+                        borderColor: colors.placeholderColor,
+                        marginTop: moderateScale(15),
+                      }}>
+                      <Text14 text={'Amenities'} />
+
+                      <View style={{ flexDirection: 'row' }}>
+                        {['Water Bottle', 'Wifi', 'Tissues', 'Newspaper'].map(
+                          (data, ind) => {
+                            return (
+                              <TouchableOpacity
+                                style={{
+                                  backgroundColor: colors.bg,
+                                  padding: moderateScale(8),
+                                  marginRight: moderateScale(10),
+                                  borderRadius: 8,
+                                  marginTop: moderateScale(10),
+                                }}>
+                                <Text12
+                                  text={data}
+                                  color={colors.placeholderColor}
+                                  mt={1}
+                                />
+                              </TouchableOpacity>
+                            );
+                          },
+                        )}
+                      </View>
+                    </View>
+                  )
+                  //#endregion
+                }
+
+                {
+                  rideStatus == 'Ongoing' && (
+                    //#region  odometer details
+                    <View
+                      style={{
+                        paddingHorizontal: moderateScale(15),
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginTop: moderateScale(10),
+                        borderBottomWidth: 0.5,
+                        borderColor: colors.placeholderColor,
+                        paddingBottom: moderateScale(10),
+                        borderTopWidth: 0.5,
+                        paddingTop: moderateScale(13),
+                      }}>
+                      <View>
+                        <Text12
+                          color={colors.theme}
+                          fontFamily={fonts.bold}
+                          text={'Odometer Drop Point'}
+                        />
+                        <View
+                          style={{
+                            height: moderateScale(55),
+                            width: moderateScale(55),
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            marginTop: moderateScale(10),
+                          }}>
+                          <Image
+                            style={CommonStyle.img}
+                            source={images.odometer}
+                          />
+                        </View>
+                      </View>
+
                       <Text12
                         color={colors.theme}
                         fontFamily={fonts.bold}
                         text={'Odometer Pickup Point'}
                       />
-                      <View
-                        style={{
-                          height: moderateScale(55),
-                          width: moderateScale(55),
-                          borderWidth: 1,
-                          borderRadius: 8,
-                          marginTop: moderateScale(10),
-                        }}>
-                        <Image
-                          style={CommonStyle.img}
-                          source={images.odometer}
-                        />
-                      </View>
                     </View>
-
-                    <Text12
-                      color={colors.theme}
-                      fontFamily={fonts.bold}
-                      text={'Odometer Pickup Point'}
-                    />
-                  </View>
+                  )
                   //#endregion
                 }
 
-                {rideStatus !== "Cancelled" &&
-                  //#region  price view
 
-                  <View
-                    style={{
-                      paddingHorizontal: scale(10),
-                      marginTop: moderateScale(10),
-                      borderTopWidth: 0.5,
-                      borderColor: colors.placeholderColor,
-                      paddingTop: moderateScale(10)
-                    }}>
-                    <Text18 color={colors.theme} text={'Price Break Up'} />
+
+                {
+                  rideStatus == "Completed" && (
+                    //#region  odometer details
+                    <View
+                      style={{
+                        paddingHorizontal: moderateScale(15),
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginTop: moderateScale(10),
+                        borderBottomWidth: 0.5,
+                        borderColor: colors.placeholderColor,
+                        paddingBottom: moderateScale(10),
+                        borderTopWidth: 0.5,
+                        paddingTop: moderateScale(13),
+                      }}>
+                      <View>
+                        <Text12
+                          color={colors.theme}
+                          fontFamily={fonts.bold}
+                          text={'Odometer Pickup Point'}
+                        />
+                        <View
+                          style={{
+                            height: moderateScale(55),
+                            width: moderateScale(55),
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            marginTop: moderateScale(10),
+                          }}>
+                          <Image
+                            style={CommonStyle.img}
+                            source={images.odometer}
+                          />
+                        </View>
+                      </View>
+
+                      <View style={{alignItems:'center'}}>
+                        <Text12
+                          color={colors.theme}
+                          fontFamily={fonts.bold}
+                          text={'Odometer Drop Point'}
+                        />
+                        <View
+                          style={{
+                            height: moderateScale(55),
+                            width: moderateScale(55),
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            marginTop: moderateScale(10),
+                          }}>
+                          <Image
+                            style={CommonStyle.img}
+                            source={images.odometer}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  )
+                  //#endregion
+                }
+
+                {
+                  rideStatus !== 'Cancelled' && (
+                    //#region  price view
 
                     <View
                       style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
+                        paddingHorizontal: scale(10),
+                        marginTop: moderateScale(10),
+                        borderTopWidth: 0.5,
+                        borderColor: colors.placeholderColor,
+                        paddingTop: moderateScale(10),
                       }}>
-                      <Text12
-                        color={colors.theme}
-                        text={'Estimated Basic Fare'}
-                      />
-                      <Text12 color={colors.theme} text={'5,275'} />
-                    </View>
+                      <Text18 color={colors.theme} text={'Price Break Up'} />
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12 color={colors.secondry} text={'Toll Tax'} />
-                      <Text12
-                        color={colors.secondry}
-                        text={'Exclude ( ₹150 to ₹180 )'}
-                      />
-                    </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12
+                          color={colors.theme}
+                          text={'Estimated Basic Fare'}
+                        />
+                        <Text12 color={colors.theme} text={'5,275'} />
+                      </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12 color={colors.secondry} text={'State Tax'} />
-                      <Text12 color={colors.secondry} text={'Include'} />
-                    </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12 color={colors.secondry} text={'Toll Tax'} />
+                        <Text12
+                          color={colors.secondry}
+                          text={'Exclude ( ₹150 to ₹180 )'}
+                        />
+                      </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12
-                        color={colors.secondry}
-                        text={'Driver Allowance (Per Night)'}
-                      />
-                      <Text12
-                        color={colors.secondry}
-                        text={'Exclude ( ₹150/ Night )'}
-                      />
-                    </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12 color={colors.secondry} text={'State Tax'} />
+                        <Text12 color={colors.secondry} text={'Include'} />
+                      </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12 color={colors.secondry} text={'Parking'} />
-                      <Text12 color={colors.secondry} text={'Excluded'} />
-                    </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12
+                          color={colors.secondry}
+                          text={'Driver Allowance (Per Night)'}
+                        />
+                        <Text12
+                          color={colors.secondry}
+                          text={'Exclude ( ₹150/ Night )'}
+                        />
+                      </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12
-                        color={colors.secondry}
-                        text={'Extra Km Charge'}
-                      />
-                      <Text12
-                        color={colors.secondry}
-                        text={'₹15/km after 160km'}
-                      />
-                    </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12 color={colors.secondry} text={'Parking'} />
+                        <Text12 color={colors.secondry} text={'Excluded'} />
+                      </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: moderateScale(10),
-                      }}>
-                      <Text12 color={colors.theme} text={'Partial Payment'} />
-                      <Text12 color={colors.theme} text={'₹150'} />
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12
+                          color={colors.secondry}
+                          text={'Extra Km Charge'}
+                        />
+                        <Text12
+                          color={colors.secondry}
+                          text={'₹15/km after 160km'}
+                        />
+                      </View>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginVertical: moderateScale(10),
+                        }}>
+                        <Text12 color={colors.theme} text={rideStatus=="Completed"?'Total Fare':'Partial Payment'} />
+                        <Text12 color={colors.theme} text={rideStatus=="Completed"?'7000':'Partial Payment'} />
+                      </View>
                     </View>
-                  </View>
+                  )
                   //#endregion
                 }
               </View>
-              {rideStatus !== "Cancelled" && <View style={{ marginVertical: moderateScale(15) }}>
-                <Button width={'95%'} text={'Pay ₹5125'} />
-              </View>}
-
-              {rideStatus == 'Upcoming' && <TouchableOpacity
-                onPress={() => setCancelRide(true)}
-                style={{ width: '90%', borderTopWidth: 1, alignSelf: 'center', alignItems: 'center', borderColor: colors.placeholderColor, marginBottom: moderateScale(10) }}>
-                <Text14 mt={moderateScale(10)} text={'Cancel Ride'} />
-              </TouchableOpacity>}
-
-              
-              {rideStatus=="Cancelled"&&
-                //#region when ride status is cancel
-                <View style={{width:'90%',alignSelf:"center",marginTop:moderateScale(10)}}>
-                  <Text12 fontFamily={fonts.regular} color={colors.secondry} text={'Cancel Reason'}/>
-                  <Text14 text={'Driver denied to go to destination'}/>
+              {(rideStatus == 'Upcoming' || rideStatus == 'Ongoing') && (
+                <View style={{ marginVertical: moderateScale(15) }}>
+                  <Button width={'95%'} text={'Pay ₹5125'} />
                 </View>
+              )}
+
+              {rideStatus == 'Upcoming' && (
+                <TouchableOpacity
+                  onPress={() => setCancelRide(true)}
+                  style={{
+                    width: '90%',
+                    borderTopWidth: 1,
+                    alignSelf: 'center',
+                    alignItems: 'center',
+                    borderColor: colors.placeholderColor,
+                    marginBottom: moderateScale(10),
+                  }}>
+                  <Text14 mt={moderateScale(10)} text={'Cancel Ride'} />
+                </TouchableOpacity>
+              )}
+
+              {
+                rideStatus == 'Cancelled' && (
+                  //#region when ride status is cancel
+                  <View
+                    style={{
+                      width: '90%',
+                      alignSelf: 'center',
+                      marginTop: moderateScale(10),
+                    }}>
+                    <Text12
+                      fontFamily={fonts.regular}
+                      color={colors.secondry}
+                      text={'Cancel Reason'}
+                    />
+                    <Text14 text={'Driver denied to go to destination'} />
+                  </View>
+                )
+                //#endregion
+              }
+
+
+              {rideStatus == "Completed" &&
+                //#region  when ride complete rider download the recipt
+                <TouchableOpacity
+                  // onPress={() => setCancelRide(true)}
+                  style={{
+                    width: '90%',
+                    borderTopWidth: 1,
+                    alignSelf: 'center',
+                    alignItems: 'center',
+                    borderColor: colors.placeholderColor,
+                    marginBottom: moderateScale(10),
+                  }}>
+                  <Text14 mt={moderateScale(10)} text={'Download Receipt'} />
+                </TouchableOpacity>
                 //#endregion
               }
 
               {/* <PlusIcon size={20} color={colors.theme}/> */}
-
             </BottomSheetScrollView>
           </View>
         </BottomSheet>

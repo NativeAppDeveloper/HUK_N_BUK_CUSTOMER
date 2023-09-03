@@ -2,7 +2,7 @@ import { View, Text ,StyleSheet, TextInput,Image, Platform} from 'react-native';
 import React, { useState,useContext } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { moderateScale } from 'react-native-size-matters';
-import { colors } from '../../utils/Styles';
+import { colors, fonts } from '../../utils/Styles';
 // import { colorConstants } from '../utils/constants';
 // import { scaleToDeviceHeight } from '../utils/responsive';
 const CustomDropDown = (props) => {
@@ -25,8 +25,9 @@ const CustomDropDown = (props) => {
               dropdownPosition="bottom"
               disable={props.disable}
               selectedTextStyle={{
-                // color:.black,
-                marginLeft:10
+                color:colors.black,
+                marginLeft:10,
+                fontFamily:fonts.medium
               }}
               value={props.value}
               containerStyle={{
@@ -48,7 +49,8 @@ const CustomDropDown = (props) => {
                 marginTop:props.marginTop ? props.marginTop:15,
                 marginBottom:props.marginBottom,
                 marginVertical:props.marginVertical,
-                fontFamily:'PlusJakartaSans-Medium'
+                fontFamily:fonts.medium,
+                color:colors.black
                 // color:colorConstants.black,
                 // backgroundColor:colorConstants.white
               }}
@@ -61,13 +63,13 @@ const CustomDropDown = (props) => {
               placeholder={props.placeholder ? props.placeholder :"--Select --"}
               placeholderStyle={{ 
                   fontSize:14, 
-            
+                  color:colors.gray,
                    marginLeft:10
                 }}
                 itemTextStyle={{
-                    fontSize:14,
+                    fontSize:12,
                     color:'#727272',
-                    fontFamily:'PlusJakartaSans-Medium'
+                    fontFamily:fonts.medium
                 }}
                
           />

@@ -43,7 +43,7 @@ const AboutApp = ({ route }) => {
     }
     return (
         <View style={[CommonStyle.container]}>
-            <BackHandler name={paramData} />
+            <BackHandler name={paramData=="About"?'About Us':paramData} />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: moderateScale(10) }}>
                     {

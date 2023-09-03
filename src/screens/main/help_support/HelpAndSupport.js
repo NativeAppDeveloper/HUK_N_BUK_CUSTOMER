@@ -158,9 +158,13 @@ const HelpAndSupport = () => {
                   />
                 </TouchableOpacity>
               </View>
+              
             </View>
             //#endregion
           }
+          <View style={{paddingVertical:moderateScale(40)}}>
+          <Image resizeMode='contain' style={{height:moderateScale(30),width:moderateScale(200)}} source={require('../../../assets/social.png')}/>
+          </View>
         </View>
       }
     </View>

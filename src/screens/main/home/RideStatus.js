@@ -23,6 +23,7 @@ import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
   MapPinIcon,
+  StarIcon,
   XMarkIcon,
 } from 'react-native-heroicons/solid';
 import Button from '../../../component/customButton/Button';
@@ -30,14 +31,20 @@ import Text16 from '../../../component/customText/Text16';
 import Text20 from '../../../component/customText/Text20';
 import Text18 from '../../../component/customText/Text18';
 import RideCancelModal from '../../../component/modal/RideCancelModal';
+import { homeFlow } from '../../../utils/localVariable';
+import RatingModal from '../../../component/modal/RatingModal';
 
 export default function RideStatus() {
   const navigation = useNavigation();
+  
   const [activeTab, setActiveTab] = useState(0);
   const [offerModal, SetOfferModal] = useState(false);
   const [slectedIndex, setSetlectedIndex] = useState(0);
   const [findDriver, setFindDriver] = useState(false);
   const [cancleRide,setCancelRide]=useState(false)
+  const [ratingModal,setRatingModal]=useState(false)
+  const [rideComplete,setRideComplete]=useState(false)
+
   const data = [
     {
       carName: 'Hatchback',
@@ -56,6 +63,28 @@ export default function RideStatus() {
     },
   ];
 
+
+
+  const rideCompleteHander=()=>{
+    setTimeout(() => {
+        setRideComplete(true)
+ 
+    }, 3000);
+
+    setTimeout(() => {
+        setRatingModal(true)
+    }, 5000);
+}
+
+useEffect(() => {
+  if(homeFlow.flow=='0'){
+    rideCompleteHander()
+  }
+}, [])
+
+
+// alert(homeFlow.flow)
+
   return (
     <View style={{flex: 1, justifyContent: 'flex-end'}}>
       <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
@@ -71,7 +100,7 @@ export default function RideStatus() {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text20 fontFamily={fonts.semibold} text={'Driver is on the way'} />
+          <Text20 fontFamily={fonts.semibold} text={rideComplete?'Heading to East Coast Hill':'Driver is on the way'} />
 
           <View
             style={{
@@ -96,7 +125,7 @@ export default function RideStatus() {
             justifyContent: 'space-between',
             paddingBottom: moderateScale(10),
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row',alignItems:'center'}}>
             <View style={{height: moderateScale(50), width: moderateScale(50)}}>
               <Image
                 resizeMode="contain"
@@ -105,13 +134,22 @@ export default function RideStatus() {
               />
             </View>
 
-            <View>
+            <View style={{marginLeft:10}}>
+              <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text14
+              mt={1}
                 fontFamily={fonts.semibold}
                 color={colors.theme}
                 text={'Akshit Kumar •'}
               />
+              <View style={{flexDirection:'row',alignItems:'center',marginLeft:3}}>
+                <StarIcon size={moderateScale(10)} color={colors.yellow}/>
+                <Text style={{color:colors.placeholderColor,fontFamily:fonts.regular,fontSize:10}}>4.4</Text>
+              </View>
+              </View>
+           
               <Text12
+              mt={1}
                 fontFamily={fonts.extraLight}
                 color={colors.secondry}
                 text="UP16-BV-0000 • Wagon R"
@@ -155,7 +193,7 @@ export default function RideStatus() {
             justifyContent: 'space-between',
             paddingBottom: moderateScale(10),
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+         {homeFlow?.flow==1&& <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View style={{height: moderateScale(20), width: moderateScale(20)}}>
               <Image
                 resizeMode="contain"
@@ -176,7 +214,107 @@ export default function RideStatus() {
                 text="Pick up 12:05PM"
               />
             </View>
-          </View>
+          </View>}
+
+
+          {/* {alert(homeFlow.flow)} */}
+          {homeFlow?.flow==0&&
+                //#region
+                <View
+                  style={{
+                    paddingHorizontal: scale(10),
+                    marginTop: moderateScale(10),
+                  }}>
+                  <View>
+                    <View style={{flexDirection: 'row'}}>
+                      <View
+                        style={{
+                          height: moderateScale(23),
+                          width: moderateScale(23),
+                        }}>
+                        <Image
+                          source={icon.currentLocation}
+                          style={CommonStyle.img}
+                        />
+                      </View>
+
+                      <View>
+                        <Text14
+                          color={colors.theme}
+                          mt={1}
+                          text={'333B, Anchorv  ale Link'}
+                        />
+                        <Text12
+                          fontFamily={fonts.regular}
+                          color={colors.gray}
+                          text={'Pick up 12:05PM, 23 Feb'}
+                        />
+                      </View>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      height: 50,
+                      borderColor: 'black',
+                      borderLeftWidth: 1,
+                      borderStyle: 'dashed',
+                      marginHorizontal: scale(10),
+                      // alignItems:'center',
+                      justifyContent: 'center',
+                      paddingLeft: 20,
+                    }}>
+                    {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Image
+                        style={{height: 17, width: 17}}
+                        source={icon.Time}
+                      />
+                      <Text style={{fontSize: 10, fontFamily: fonts.regular}}>
+                        {' '}
+                        456 km
+                      </Text>
+                      <Image
+                        style={{
+                          height: 17,
+                          width: 17,
+                          marginHorizontal: scale(10),
+                        }}
+                        source={icon.distance}
+                      />
+                      <Text style={{fontSize: 10, color: '#f7954a'}}>
+                        456 km
+                      </Text>
+                    </View> */}
+                  </View>
+
+                  <View style={{flexDirection: 'row', marginTop: 8}}>
+                    <View
+                      style={{
+                        height: moderateScale(23),
+                        width: moderateScale(23),
+                      }}>
+                      <Image
+                        source={icon.currentLocation}
+                        style={CommonStyle.img}
+                      />
+                    </View>
+
+                    <View>
+                      <Text14
+                        color={colors.theme}
+                        mt={1}
+                        text={'East Coast Hill'}
+                      />
+                      <Text12
+                        fontFamily={fonts.regular}
+                        color={colors.gray}
+                        text={'Pick up 12:05PM, 23 Feb'}
+                      />
+                    </View>
+                  </View>
+                </View>
+                //#endregion
+              }
         </View>
 
         <View
@@ -248,6 +386,8 @@ export default function RideStatus() {
       </View>
 
       <RideCancelModal cancel={cancleRide} setCancelRide={setCancelRide}/>
+      <RatingModal ratingModal={ratingModal} setRatingModal={setRatingModal}/>
+
     </View>
   );
 }

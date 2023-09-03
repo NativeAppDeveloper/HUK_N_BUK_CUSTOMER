@@ -27,48 +27,51 @@ import {
 } from 'react-native-heroicons/solid';
 import Button from '../../../component/customButton/Button';
 import Text16 from '../../../component/customText/Text16';
+import { homeFlow } from '../../../utils/localVariable';
+import LocationText from '../../../component/common/LocationText';
 
 export default function BookRide() {
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState(0);
-    const [offerModal,SetOfferModal]=useState(false)
-    const [slectedIndex,setSetlectedIndex]=useState(0)
-
+    const [offerModal, SetOfferModal] = useState(false);
+    const [slectedIndex, setSetlectedIndex] = useState(0);
     const data = [
         {
             carName: 'Hatchback',
             desc: 'Comfy,Economical cars',
             price: '₹300-400',
-            icon:icon.car1
+            icon: icon.car1,
         },
         {
             carName: 'Sedan',
             desc: 'Spacious Sedan ,Top Drivers',
             price: '₹400-600',
-            icon:icon.car2
-
+            icon: icon.car3,
         },
         {
             carName: 'SUV',
             desc: 'Luxury Compfort,more Space',
             price: '₹400-600',
-            icon:icon.car3
-
+            icon: icon.omini,
         },
     ];
+
+
+    console.log(homeFlow?.flow, 'yess');
 
     return (
         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
+            <LocationText />
             <View
                 style={{
-                    height: '55%',
+                    // height: '55%',
                     backgroundColor: colors.white,
                     paddingBottom: moderateScale(10),
                 }}>
-                <ScrollView>
+                {!offerModal && <ScrollView>
                     <View style={{ paddingHorizontal: moderateScale(15), marginTop: 10 }}>
-                        <Text16 text={'Recommended for you'} />
+                        <Text16 mt={15} text={'Recommended for you'} />
 
                         {
                             //#region car map
@@ -90,7 +93,7 @@ export default function BookRide() {
                                                     width: moderateScale(55),
                                                     borderColor: colors.placeholderColor,
                                                     borderRadius: 8,
-                                                    padding:3
+                                                    padding: 3,
                                                 }}>
                                                 <Image
                                                     resizeMode="contain"
@@ -100,14 +103,16 @@ export default function BookRide() {
                                             </View>
 
                                             <TouchableOpacity
-                                            onPress={()=>setSetlectedIndex(ind)}
+                                                onPress={() => setSetlectedIndex(ind)}
                                                 style={{
                                                     borderWidth: 1,
                                                     width: '80%',
                                                     borderRadius: 8,
                                                     paddingHorizontal: scale(10),
-                                                    borderColor:slectedIndex==ind?colors.theme:colors.gray,
-                                                    backgroundColor:slectedIndex==ind?'#e6ebfa':colors.white
+                                                    borderColor:
+                                                        slectedIndex == ind ? colors.theme : colors.gray,
+                                                    backgroundColor:
+                                                        slectedIndex == ind ? '#e6ebfa' : colors.white,
                                                 }}>
                                                 <View style={{}}>
                                                     <View
@@ -117,7 +122,7 @@ export default function BookRide() {
                                                         }}>
                                                         <Text14
                                                             fontFamily={fonts.semibold}
-                                                            text={'Hatchback'}
+                                                            text={ele.carName}
                                                         />
 
                                                         <Text14
@@ -129,7 +134,7 @@ export default function BookRide() {
                                                     <Text12
                                                         fontFamily={fonts.extraLight}
                                                         color={colors.placeholderColor}
-                                                        text={'Comfy,Economical cars'}
+                                                        text={ele.desc}
                                                     />
                                                 </View>
                                             </TouchableOpacity>
@@ -137,7 +142,8 @@ export default function BookRide() {
                                     );
                                 })}
 
-                                <View
+                                <TouchableOpacity
+                                    onPress={() => SetOfferModal(true)}
                                     style={{
                                         flexDirection: 'row',
                                         justifyContent: 'space-between',
@@ -156,13 +162,13 @@ export default function BookRide() {
                                             source={icon.discount}
                                         />
                                         <Text14
-                                            text={'  Cash payment'}
+                                            text={' Apply Promo code'}
                                             color={colors.placeholderColor}
                                         />
                                     </View>
 
                                     <ChevronRightIcon color={colors.black} />
-                                </View>
+                                </TouchableOpacity>
 
                                 <View
                                     style={{
@@ -172,9 +178,9 @@ export default function BookRide() {
                                         borderColor: colors.placeholderColor,
                                         paddingBottom: moderateScale(15),
                                     }}>
-                                    <TouchableOpacity 
-                                    onPress={()=>SetOfferModal(true)}
-                                    style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <TouchableOpacity
+                                        // onPress={()=>SetOfferModal(true)}
+                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <View
                                             style={{
                                                 height: moderateScale(28),
@@ -191,8 +197,8 @@ export default function BookRide() {
                                             />
                                         </View>
                                         <Text14
-                                            text={'  Apply Promo code'}
-                                            color={colors.placeholderColor}
+                                            text={'  Cash payment'}
+                                            color={colors.black}
                                         />
                                     </TouchableOpacity>
 
@@ -202,12 +208,19 @@ export default function BookRide() {
                             //#endregion
                         }
                     </View>
-                </ScrollView>
-                <Button 
-                onPress={()=>navigation.navigate('ConfirmRide')}
-                text={'Book Ride'} />
+                </ScrollView>}
+                <Button
+                    onPress={() => {
+                        if (homeFlow?.flow == 2) {
+                            navigation.navigate('SelectPassenger');
+                        } else {
+                            navigation.navigate('ConfirmRide');
+                        }
+                    }}
+                    text={homeFlow?.flow == 0 ? 'Book Ride' : homeFlow?.flow == 1 ? 'Book Rental Ride' : 'Book Outstation Ride'}
+                />
             </View>
-
+            {/* {alert(JSON.stringify(homeFlow))} */}
             <AddPromoCode offerModal={offerModal} SetOfferModal={SetOfferModal} />
         </View>
     );
@@ -271,7 +284,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const AddPromoCode = ({offerModal,SetOfferModal}) => {
+const AddPromoCode = ({ offerModal, SetOfferModal }) => {
     const data1 = [
         {
             carName: 'Get 10% on First Ride',
@@ -294,9 +307,10 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
             <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                 <View
                     style={{
-                        height: '55%',
+                        // height: '55%',
                         backgroundColor: colors.white,
                         paddingBottom: moderateScale(10),
+                        paddingVertical: moderateScale(20)
                     }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View
@@ -304,8 +318,12 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                                 paddingHorizontal: moderateScale(15),
                                 marginTop: moderateScale(10),
                             }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'space-between' }}>
-
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text16
                                         color={colors.theme}
@@ -322,8 +340,8 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                                         }}
                                     />
                                 </View>
-                                <TouchableOpacity onPress={()=>SetOfferModal(false)}>
-                                    <XMarkIcon color={colors.black} size={moderateScale(25)}/>
+                                <TouchableOpacity onPress={() => SetOfferModal(false)}>
+                                    <XMarkIcon color={colors.black} size={moderateScale(25)} />
                                 </TouchableOpacity>
                             </View>
                             {
@@ -332,7 +350,7 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                                     style={{
                                         flexDirection: 'row',
                                         justifyContent: 'space-between',
-                                        marginTop: moderateScale(15 ),
+                                        marginTop: moderateScale(15),
                                         marginBottom: moderateScale(10),
                                     }}>
                                     <View
@@ -341,10 +359,14 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                                             borderColor: colors.placeholderColor,
                                             width: '60%',
                                             borderRadius: 8,
-                                            justifyContent:"center",
-                                            paddingLeft:10
+                                            justifyContent: 'center',
+                                            paddingLeft: 10,
                                         }}>
-                                        <TextInput placeholder="Enter promo code" />
+                                        <TextInput
+                                            style={{ color: colors.black, fontFamily: fonts.regular }}
+                                            placeholderTextColor={colors.gray}
+                                            placeholder="Enter promo code"
+                                        />
                                     </View>
                                     <Button text={'Apply'} width={'30%'} />
                                 </View>
@@ -395,19 +417,28 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                                                             }}>
                                                             <Text14
                                                                 fontFamily={fonts.semibold}
-                                                                text={'Hatchback'}
+                                                                text={ele.carName}
                                                             />
 
-                                                            <Text14
-                                                                fontFamily={fonts.semibold}
-                                                                text={'₹300-400'}
-                                                            />
+                                                            {ind == 0 && (
+                                                                <Image
+                                                                    resizeMode="contain"
+                                                                    style={{
+                                                                        height: moderateScale(20),
+                                                                        width: moderateScale(20),
+                                                                        position: 'absolute',
+                                                                        top: moderateScale(10),
+                                                                        right: moderateScale(5),
+                                                                    }}
+                                                                    source={icon.checkbox}
+                                                                />
+                                                            )}
                                                         </View>
 
                                                         <Text12
                                                             fontFamily={fonts.extraLight}
                                                             color={colors.placeholderColor}
-                                                            text={'Comfy,Economical cars'}
+                                                            text={ele.desc}
                                                         />
                                                     </View>
                                                 </View>
@@ -419,7 +450,9 @@ const AddPromoCode = ({offerModal,SetOfferModal}) => {
                             }
                         </View>
                     </ScrollView>
-                    <Button text={'Book Ride'} />
+                    <Button 
+                    onPress={()=>SetOfferModal(false)}
+                    mt={30} text={'Use Code'} />
                 </View>
             </View>
         </Modal>

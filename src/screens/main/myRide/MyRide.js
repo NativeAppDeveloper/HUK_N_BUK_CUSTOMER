@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity, StatusBar} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CommonStyle, colors, fonts} from '../../../utils/Styles';
@@ -8,6 +8,7 @@ import {moderateScale, scale} from 'react-native-size-matters';
 import Text16 from '../../../component/customText/Text16';
 import Text14 from '../../../component/customText/Text14';
 import { useNavigation } from '@react-navigation/core';
+import { rideType } from '../../../utils/localVariable';
 
 const MyRide = () => {
     const {navigate}=useNavigation()
@@ -33,7 +34,8 @@ const MyRide = () => {
   ]);
   return (
     <View style={[CommonStyle.container,{backgroundColor:'#f6f6f6'}]}>
-      <BackHandler drawer={1} name={'My Rides'} />
+      <StatusBar backgroundColor={colors.theme}/>
+      <BackHandler  name={'My Rides'} />
 
       {
         <FlatList
@@ -43,7 +45,10 @@ const MyRide = () => {
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
-              onPress={()=>navigate('RideType',{rideType:item.heading})}
+              onPress={()=>{
+                rideType.type=item.heading
+                navigate('RideType',{rideType:item.heading})
+              }}
                 style={styles.card}>
                 <View
                   style={{

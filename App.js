@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler';
-import { Image, Modal, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Image, LogBox, Modal, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import MainRoutes from './src/routes/MainRoutes'
 import Onboarding from './src/screens/onboarding/Onboarding';
 import AuthRoutes from './src/routes/AuthRoutes';
 import { useSelector } from 'react-redux';
-
+import SplashScreen from 'react-native-splash-screen';
 
 export default function App() {
   const {stackName}=useSelector((state)=>state.ChangeStackReducer)
@@ -17,13 +17,20 @@ export default function App() {
     { id: 2, text: 'Item 2' },
     { id: 3, text: 'Item 3' },
   ];
+
+
+  useEffect(() => {
+    SplashScreen.hide()
+  }, [])
+  
+  LogBox.ignoreAllLogs()
   return (
     <>
       <StatusBar backgroundColor={'transparent'} translucent={true} barStyle={'dark-content'} />
     <NavigationContainer>
-      {stackName=="AUTH"&&<MainRoutes/>}
+      {stackName=="MAIN"&&<MainRoutes/>}
       {stackName=="ONBOARDING"&&<Onboarding/>}
-      {stackName=="MAIN"&&<AuthRoutes/>}
+      {stackName=="AUTH"&&<AuthRoutes/>}
       {/* <MyProfile/> */}
       {/* <CustomMapView
       Marker={true}

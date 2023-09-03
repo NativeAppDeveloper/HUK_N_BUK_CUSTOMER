@@ -24,6 +24,9 @@ import bell from '../assets/icon/bell.png'
 import Hindi from '../assets/icon/Hindi.png'
 import Eng from '../assets/icon/Eng.png'
 import toggleBtn from '../assets/icon/toggleBtn.png'
+import master from '../assets/icon/master.png'
+
+
 
 import paytm from '../assets/icon/paytm.png'
 import PhonePe from '../assets/icon/PhonePe.png'
@@ -41,6 +44,14 @@ import distance from '../assets/icon/distance.png'
 import profile from '../assets/icon/profile.png'
 import circle from '../assets/icon/circle.png'
 import dummy from '../assets/icon/dummy.png'
+import bidDetails from '../assets/icon/bidDetails.png'
+
+
+
+import adult from '../assets/icon/adult.png'
+
+import child from '../assets/icon/child.png'
+
 
 import car1 from '../assets/icon/car1.png'
 import car2 from '../assets/icon/car2.png'
@@ -52,6 +63,13 @@ import sms from '../assets/icon/sms.png'
 import call from '../assets/icon/call.png'
 
 
+import request_icon from '../assets/icon/request_icon.png'
+
+import send_icon from '../assets/icon/send_icon.png'
+
+// 
+// 
+
 import home from '../assets/icon/home.png'
 import wallet2 from '../assets/icon/wallet2.png'
 import clipboardtick from '../assets/icon/clipboardtick.png'
@@ -59,7 +77,12 @@ import Ride from '../assets/icon/Ride.png'
 
 import omini from '../assets/icon/omini.png'
 import bus from '../assets/icon/bus.png'
+import timer1 from '../assets/icon/timer1.png'
+import Qr from '../assets/icon/Qr.png'
 
+import fe_male from '../assets/icon/fe_male.png'
+import bro_sis from '../assets/icon/bro_sis.png'
+import request from '../assets/icon/request.png'
 
 
 
@@ -131,5 +154,17 @@ export const icon={
     clipboardtick:clipboardtick,
     Ride:Ride,
     omini:omini,
-    bus:bus
+    bus:bus,
+    request_icon:request_icon,
+    send_icon:send_icon,
+    adult:adult,
+    child:child,
+    bidDetails:bidDetails,
+    master:master,
+    timer1:timer1,
+    Qr:Qr,
+    fe_male:fe_male,
+    bro_sis:bro_sis,
+    profile:profile,
+    request:request
 }

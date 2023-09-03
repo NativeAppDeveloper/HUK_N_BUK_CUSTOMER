@@ -29,9 +29,9 @@ const Step4 = () => {
                     //#region  headet text
                     <View style={{ marginTop: moderateVerticalScale(20) }} >
                         <Text24 text={'Enter Your Email'} />
-                        <Text14
+                        {/* <Text14
                             fontFamily={fonts.regular}
-                            color={colors.gray} text={`Please provide your complete name `} />
+                            color={colors.gray} text={`Please provide your complete name `} /> */}
                     </View>
                     //#endregion
                 }
@@ -55,7 +55,7 @@ const Step4 = () => {
                         //#region  Next Button
                         <View>
                             <Button
-                                onPress={() => navigation.navigate('Step5')}
+                                onPress={() => navigation.navigate('Otp',{flow:'email'})}
                                 width={'100%'}
                                 mt={moderateVerticalScale(20)}
                                 text={'Submit'}
@@ -67,7 +67,7 @@ const Step4 = () => {
 
                     <View style={{ marginTop: moderateScale(30) }}>
                         <Text14 textAlign='center' color={colors.gray} fontFamily={fonts.regular} text={`By regestering, you are agreeing to Mobox’s `} />
-                        <Text style={{ textAlign: 'center', color: "black", fontFamily: fonts.regular }}>Terms & Conditions <Text14 color={colors.gray} text={' and '} />and Privacy and Polcies</Text>
+                        <Text style={{ textAlign: 'center', color: "black", fontFamily: fonts.regular }}>Terms & Conditions <Text14 color={colors.gray} text={' and '} /> Privacy and Polcies</Text>
                     </View>
                 </View>
             </View>

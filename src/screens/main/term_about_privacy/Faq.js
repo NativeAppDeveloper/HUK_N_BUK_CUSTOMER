@@ -7,7 +7,7 @@ import { icon } from '../../../utils/Image'
 import { moderateScale, scale } from 'react-native-size-matters'
 import Text16 from '../../../component/customText/Text16'
 import Text14 from '../../../component/customText/Text14'
-import { ArrowLeftIcon } from 'react-native-heroicons/solid'
+import { ArrowLeftIcon, ArrowRightIcon } from 'react-native-heroicons/solid'
 
 const Faq = () => {
 
@@ -63,7 +63,7 @@ const Faq = () => {
                     return(
                         <View style={{borderBottomWidth:1,flexDirection:"row",paddingVertical:moderateScale(20),paddingHorizontal:scale(10),borderColor:colors.placeholderColor}}>
                             <View style={{height:50,width:50,backgroundColor:colors.theme,borderRadius:50,alignItems:"center",justifyContent:"center"}}>
-                                <ArrowLeftIcon color={colors.white} size={moderateScale(20)}/>
+                                <ArrowRightIcon color={colors.white} size={moderateScale(20)}/>
                             </View>
 
                             <View style={{paddingLeft:moderateScale(10),width:'90%'}}>

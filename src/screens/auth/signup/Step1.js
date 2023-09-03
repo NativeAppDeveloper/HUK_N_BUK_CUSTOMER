@@ -28,10 +28,10 @@ const Step1 = () => {
             {
                 //#region  headet text
                 <View style={{marginTop:moderateVerticalScale(20)}} >
-                <Text24 text={'Enter Your Name'}/>
+                <Text24 color={colors.theme} text={'Enter Your Name'}/>
                 <Text14 
                 fontFamily={fonts.regular}
-                color={colors.gray} text={`Please provide your complete name `}/>
+                color={colors.secondry} text={`Please provide your complete name `}/>
                 </View>
                 //#endregion
             }

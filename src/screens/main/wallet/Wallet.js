@@ -1,12 +1,11 @@
-import {View, Text, FlatList, Modal, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {View, Text, FlatList, Modal, TouchableOpacity, Image, TouchableWithoutFeedback} from 'react-native';
+import React, { useState } from 'react';
 import BackHandler from '../../../component/BackHandler';
 import {moderateScale, scale} from 'react-native-size-matters';
 import {CommonStyle, colors, fonts} from '../../../utils/Styles';
 import Text16 from '../../../component/customText/Text16';
 import Text24 from '../../../component/customText/Text24';
 import Input from '../../../component/customInput/Input';
-import {Image} from 'react-native-svg';
 import Text12 from '../../../component/customText/Text12';
 import Text18 from '../../../component/customText/Text18';
 import {icon} from '../../../utils/Image';
@@ -17,12 +16,13 @@ import {
   AdjustmentsHorizontalIcon,
   AdjustmentsVerticalIcon,
 } from 'react-native-heroicons/outline';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Text22 from '../../../component/customText/Text22';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Wallet = () => {
-    const {navigate}=useNavigation()
+  const {navigate} = useNavigation();
+  const [transactionInfo,setTransactionInfo]=useState(false)
   const dummyData = [
     {
       text: 'Pay To Driver',
@@ -57,7 +57,8 @@ const Wallet = () => {
   ];
   const renderItem = ({item, index}) => {
     return (
-      <View
+      <TouchableOpacity
+      onPress={()=>setTransactionInfo(true)}
         style={{
           borderBottomWidth: index !== dummyData.length - 1 ? 0.5 : 0,
           paddingVertical: moderateScale(10),
@@ -66,22 +67,21 @@ const Wallet = () => {
           justifyContent: 'space-between',
           borderColor: colors.placeholderColor,
         }}>
-
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View
             style={{
-              height: moderateScale(20),
-              width: moderateScale(20),
-              borderWidth: 1,
+              height: moderateScale(25),
+              width: moderateScale(25),
               borderRadius: 200,
+              backgroundColor:'#f6f6f6'
             }}>
-            {/* <Image/> */}
+            <Image style={CommonStyle.img} source={index%2==0?icon.send_icon:icon.request_icon}/>
           </View>
           <View style={{marginLeft: scale(10)}}>
             <Text12
               mt={3}
               color={colors.black}
-              text={'Pay To Driver'}
+              text={index%2==0?'Pay To Driver':'Add Money'}
               fontFamily={fonts.semibold}
             />
             <Text
@@ -89,12 +89,13 @@ const Wallet = () => {
                 fontFamily: fonts.regular,
                 fontSize: 10,
                 marginTop: moderateScale(5),
+                color:colors.gray
               }}>{`Txn ID #515456655, Oct 14, 10:24 AM`}</Text>
           </View>
         </View>
 
         <View>
-          <Text14 fontFamily={fonts.semibold} text={'- ₹15.00'} />
+          <Text14 fontFamily={fonts.semibold} text={`${index%2==0?'-':'+'} ₹15.00`} />
           <Text
             style={{
               fontFamily: fonts.regular,
@@ -102,7 +103,7 @@ const Wallet = () => {
               marginTop: moderateScale(5),
             }}>{`#515456655`}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -119,30 +120,45 @@ const Wallet = () => {
             paddingVertical: moderateScale(10),
             paddingBottom: moderateScale(20),
           }}>
-            <SafeAreaView/>
+          <SafeAreaView />
 
-            <Text18  text={'Wallet'} color={colors.white} textAlign={'center'}/>
-          <View style={{flexDirection:"row",justifyContent:'space-between',marginTop:moderateScale(10),alignItems:'center'}}>
-          <View>
-          <Text16
-            text={'Total Balance'}
-            fontFamily={fonts.regular}
-            color={colors.white}
-          />
-          <Text24
-            text={'₹ 124.57'}
-            color={colors.white}
-            fontFamily={fonts.bold}
-          />
-          </View>
-
-          <TouchableOpacity 
-          onPress={()=>navigate('AddMoney')}
-          style={{backgroundColor:colors.yellow,height:32,justifyContent:"center",paddingHorizontal:scale(10),borderRadius:8}}>
-            <Text14 mt={1} text={'Add Money'}/>
-          </TouchableOpacity>
-          </View>
+          <Text18 text={'Wallet'} color={colors.white} textAlign={'center'} />
           <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: moderateScale(10),
+              alignItems: 'center',
+            }}>
+            <View>
+              <Text16
+                text={'Total Balance'}
+                fontFamily={fonts.regular}
+                color={colors.white}
+              />
+              <Text24
+              // mt={30}
+              lineHeight={moderateScale(40)}
+              fontSize={moderateScale(30)}
+                text={'₹ 124.57'}
+                color={colors.white}
+                fontFamily={fonts.bold}
+              />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => navigate('AddMoney')}
+              style={{
+                backgroundColor: colors.yellow,
+                height: 32,
+                justifyContent: 'center',
+                paddingHorizontal: scale(10),
+                borderRadius: 8,
+              }}>
+              <Text14 mt={1} text={'Add Money'} />
+            </TouchableOpacity>
+          </View>
+          {/* <View
             style={{
               borderWidth: 1,
               marginTop: moderateScale(20),
@@ -150,7 +166,7 @@ const Wallet = () => {
               borderColor: colors.placeholderColor,
             }}>
             <Input placeHolder={'Enter Amount'} />
-          </View>
+          </View> */}
         </View>
       }
 
@@ -170,6 +186,8 @@ const Wallet = () => {
                 flexDirection: 'row',
                 borderWidth: 1,
                 paddingHorizontal: scale(10),
+                borderColor:colors.borderC,
+                borderRadius:8
               }}>
               <AdjustmentsHorizontalIcon
                 color={colors.gray}
@@ -182,19 +200,24 @@ const Wallet = () => {
         </View>
         //#endregion
       }
-      {/* <InformationModal/> */}
+      <InformationModal transactionInfo={transactionInfo} setTransactionInfo={setTransactionInfo}/>
     </View>
   );
 };
 
 export default Wallet;
 
-const InformationModal = () => {
+const InformationModal = ({transactionInfo,setTransactionInfo}) => {
   return (
-    <Modal transparent>
+    <Modal 
+    transparent
+    visible={transactionInfo}
+    animationType='slide'
+    >
+      <TouchableWithoutFeedback onPress={()=>setTransactionInfo(false)}>
       <View
         style={{
-          backgroundColor: 'rgba(126,126,126,0.55)',
+          backgroundColor: 'rgba(0,0,0,0.5)',
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
@@ -212,8 +235,9 @@ const InformationModal = () => {
             mt={moderateScale(20)}
             fontFamily={fonts.bold}
             text={'Pay To Driver'}
+            color={colors.theme}
           />
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between',marginTop:moderateScale(10)}}>
             <View>
               <Text12
                 color={colors.gray}
@@ -221,8 +245,8 @@ const InformationModal = () => {
                 text={'Txn Id'}
               />
               <Text12
-                color={colors.black}
                 fontFamily={fonts.extraBold}
+                color={colors.theme}
                 text={'#515456655'}
               />
             </View>
@@ -230,11 +254,11 @@ const InformationModal = () => {
               <Text12
                 color={colors.gray}
                 fontFamily={fonts.regular}
-                text={'Date& Time'}
+                text={'Date & Time'}
               />
               <Text12
-                color={colors.black}
                 fontFamily={fonts.extraBold}
+                color={colors.theme}
                 text={'Oct 14, 10:24 AM'}
               />
             </View>
@@ -253,8 +277,8 @@ const InformationModal = () => {
                 text={'Booking Id'}
               />
               <Text12
-                color={colors.black}
                 fontFamily={fonts.extraBold}
+                color={colors.theme}
                 text={'#515456655'}
               />
             </View>
@@ -267,12 +291,13 @@ const InformationModal = () => {
               <Text20
                 color={colors.yellow}
                 fontFamily={fonts.bold}
-                text={'-$15'}
+                text={'-₹15.00'}
               />
             </View>
           </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

@@ -17,6 +17,11 @@ import Button from '../../../component/customButton/Button'
 const Payments = () => {
     const { navigate } = useNavigation()
     const [active, setActiveTab] = useState(0)
+    const [cardModal,setCardModal]=useState(false)
+    const [upiModal,setUpiModal]=useState(false)
+    const [upiImgae,setUpiImage]=useState(null)
+
+    // console.log(upiImgae);
     const [notifactionData, setNotifactionData] = useState(
         [
             {
@@ -52,12 +57,12 @@ const Payments = () => {
                         />
 
                         <TouchableOpacity
-                            onPress={() => setActiveTab(index)}
-                            style={[styles.cardContainer,]}>
+                            // onPress={() => setUpiModal(true)}
+                            style={[styles.cardContainer,{paddingVertical:moderateScale(15)}]}>
 
 
                             {<View style={{ paddingLeft: moderateScale(10) }}>
-                                <Text14 lineHeight={moderateScale(13)} text={'$400'} fontFamily={fonts.medium} color={colors.theme} />
+                                <Text14 lineHeight={moderateScale(13)} text={'₹ 400'} fontFamily={fonts.medium} color={colors.theme} />
                             </View>}
                             <View style={{ position: 'absolute', right: 10, flexDirection: 'row', alignItems: 'center', }}>
                                 <Text12 text={'Default'} />
@@ -78,14 +83,18 @@ const Payments = () => {
                             return (
                                 <TouchableOpacity
                                     key={ind}
-                                    onPress={() => setActiveTab(ind)}
+                                    onPress={() => {
+                                        // setUpiImage(item.img)
+                                        setActiveTab(ind)
+                                        setUpiModal(true)
+                                    }}
                                     style={[styles.cardContainer,]}>
                                     <View style={{ paddingLeft: moderateScale(10), flexDirection: 'row', alignItems: 'center' }}>
                                         <Image style={{ height: moderateScale(30), width: moderateScale(30), marginRight: 10 }} source={item.img} />
                                         <Text14 mt={2} lineHeight={moderateScale(13)} text={item.heading} fontFamily={fonts.medium} color={colors.theme} />
                                     </View>
                                     <View style={{ position: 'absolute', right: 10, flexDirection: 'row', alignItems: 'center', }}>
-                                        <Text12 color={ind == 2 ? colors.yellow : colors.gray} text={ind == 2 ? 'Set as Default' : 'Link'} />
+                                        <Text12 color={ind !== 2 ? colors.yellow : colors.black} text={ind == 2 ? 'Set as Default' : 'Link'} />
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -103,7 +112,7 @@ const Payments = () => {
 
 
                         <TouchableOpacity
-                            onPress={() => setActiveTab(ind)}
+                            onPress={() => setCardModal(true)}
                             style={[styles.cardContainer, { paddingVertical: moderateScale(17) }]}>
                             <View style={{ paddingLeft: moderateScale(10), flexDirection: 'row', alignItems: 'center' }}>
                                 <Image style={{ height: moderateScale(10), width: moderateScale(10), marginRight: 10 }} source={icon.plus} />
@@ -113,7 +122,7 @@ const Payments = () => {
 
 
                         <TouchableOpacity
-                            onPress={() => setActiveTab(ind)}
+                            // onPress={() => setActiveTab(ind)}
                             style={[styles.cardContainer, { paddingVertical: moderateScale(17) }]}>
                             <View style={{ paddingLeft: moderateScale(10), flexDirection: 'row', alignItems: 'center' }}>
                                 <Image style={{ height: moderateScale(30), width: moderateScale(30), marginRight: 10 }} source={icon.visa} />
@@ -134,8 +143,8 @@ const Payments = () => {
                     //#endregion
                 }
 
-                {/* <AddUpi /> */}
-                {/* <AddCard/> */}
+                <AddUpi setUpiModal={setUpiModal} upiModal={upiModal} active={active} />
+                <AddCard cardModal={cardModal} setCardModal={setCardModal}/>
             </View>
         </View>
     )
@@ -174,9 +183,9 @@ const styles = StyleSheet.create({
 export default Payments
 
 
-const AddUpi = () => {
+const AddUpi = ({upiModal,setUpiModal,active}) => {
     return (
-        <Modal transparent>
+        <Modal visible={upiModal} transparent>
             <View style={{ backgroundColor: 'rgba(126,126,126,0.55)', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ height: moderateScale(300), width: '90%', backgroundColor: colors.white, borderRadius: moderateScale(10) }}>
                     <Text18 mt={moderateScale(20)} fontFamily={fonts.bold} textAlign={'center'} text={'Add UPI'} />
@@ -186,45 +195,45 @@ const AddUpi = () => {
                         width: moderateScale(100),
                         marginRight: 10,
                         alignSelf: "center"
-                    }} source={icon.PhonePe} />
+                    }} source={active==0?icon.googlePay:active==1?icon.PhonePe:icon.paytm} />
                     <View style={{borderWidth:1,width:'90%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor}}>
                         <Input placeHolder={'Ex- 9898989898@ybl'} />
                     </View>
 
-                    <Button mt={moderateScale(20)} text={'Add UPI'} />
+                    <Button onPress={()=>setUpiModal(false)} mt={moderateScale(20)} text={'Add UPI'} />
                 </View>
             </View>
         </Modal>
     )
 }
 
-const AddCard=()=>{
+const AddCard=({setCardModal,cardModal})=>{
     return(
-        <Modal transparent>
+        <Modal visible={cardModal} transparent>
         <View style={{ backgroundColor: 'rgba(126,126,126,0.55)', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ height: moderateScale(330), width: '90%', backgroundColor: colors.white, borderRadius: moderateScale(10) }}>
                 <Text18 mt={moderateScale(20)} fontFamily={fonts.bold} textAlign={'center'} text={'Credit / Debit Card'} />
 
      
                 <View style={{borderWidth:1,width:'90%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
-                    <Input  placeHolder={'Card Number'} />
+                    <Input fontSize={moderateScale(12)}  placeHolder={'Card Number'} />
                 </View>
 
 
                 <View style={{flexDirection:'row',width:'90%',justifyContent:"space-between",alignSelf:'center'}}>
-                <View style={{borderWidth:1,width:'50%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
-                    <Input  placeHolder={'Name On Card'} />
+                <View style={{borderWidth:1,width:'65%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
+                    <Input fontSize={12}  placeHolder={'Valid Through (MM/YY)'} />
                 </View>
-                <View style={{borderWidth:1,width:'40%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
-                    <Input  placeHolder={'Name On Card'} />
+                <View style={{borderWidth:1,width:'30%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
+                    <Input keyboardType={1} fontSize={12}  placeHolder={'CVV'} />
                 </View>
                 </View>
 
                 <View style={{borderWidth:1,width:'90%',alignSelf:'center',overflow:'hidden',borderRadius:moderateScale(8),borderColor:colors.placeholderColor,marginTop:moderateScale(15)}}>
-                    <Input  placeHolder={'Name On Card'} />
+                    <Input fontSize={12}  placeHolder={'Name On Card'} />
                 </View>
 
-                <Button mt={moderateScale(20)} text={'Add UPI'} />
+                <Button onPress={()=>{setCardModal(false)}} mt={moderateScale(20)} text={'Add Card'} />
             </View>
         </View>
     </Modal>

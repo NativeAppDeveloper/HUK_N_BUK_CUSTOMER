@@ -29,6 +29,20 @@ import ConfirmRide from '../screens/main/home/ConfirmRide';
 import RideStatus from '../screens/main/home/RideStatus';
 import { icon } from '../utils/Image';
 import Location from '../screens/common/Location';
+import MyRequest from '../screens/main/myRequest/MyRequest';
+import RequestDetails from '../screens/main/myRequest/RequestDetails';
+import BidDetails from '../screens/main/myRequest/BidDetails';
+import LuggageAllowance from '../screens/main/home/LuggageAllowance';
+import InterCityRideDetail from '../screens/main/myRide/InterCityRideDetail';
+import LocalRideDetails from '../screens/main/myRide/LocalRideDetails';
+import QrScanner from '../screens/qrFlow/QrScanner';
+import DriverDetails from '../screens/qrFlow/DriverDetails';
+import QrHome from '../screens/qrFlow/QrHome';
+import QrInterCity_Rentel from '../screens/qrFlow/QrInterCity_Rentel';
+import QrRideDetails from '../screens/qrFlow/QrRideDetails';
+import SelectPassenger from '../screens/main/home/SelectPassenger';
+import Depart_Arrival from '../screens/main/home/Depart_Arrival';
+import DriverList from '../screens/main/home/DriverList';
 
 
 
@@ -50,18 +64,18 @@ const TabStack = ({route}) => {
             tabBarIcon: ({ focused, color, size }) => {
                 switch (name) {
                     case 'Home':
-                        return <Image source={icon.home} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(30),width:moderateScale(30) }} resizeMode="contain"  />
+                        return <Image source={icon.home} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(25),width:moderateScale(25) }} resizeMode="contain"  />
 
                     case 'My Request':
-                        return <Image source={icon.Ride} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(30),width:moderateScale(30) }} resizeMode="contain"  />
+                        return <Image source={icon.request} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(25),width:moderateScale(25) }} resizeMode="contain"  />
 
                     case 'My Ride':
-                        return <Image source={icon.Ride} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(30),width:moderateScale(30) }} resizeMode="contain"  />
+                        return <Image source={icon.Ride} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(25),width:moderateScale(25) }} resizeMode="contain"  />
                     case 'Wallet':
-                        return <Image source={icon.wallet2} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(30),width:moderateScale(30) }} resizeMode="contain"  />
+                        return <Image source={icon.wallet2} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(25),width:moderateScale(25) }} resizeMode="contain"  />
 
                     case '':
-                        return <Image source={icon.wallet2} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(30),width:moderateScale(30) }} resizeMode="contain"  />
+                        return <Image source={icon.wallet2} style={{ tintColor: focused ? colors.white : colors.gray,height:moderateScale(25),width:moderateScale(25) }} resizeMode="contain"  />
 
 
                 }
@@ -72,14 +86,19 @@ const TabStack = ({route}) => {
             tabBarInactiveTintColor: 'gray',
             tabBarLabelStyle: {
                 fontSize: moderateScale(12),
-                fontFamily:fonts.medium
+                fontFamily:fonts.medium,
+                // lineHeight:10
+                // borderWidth:1,
+                
             },
             tabBarStyle: {
                 borderTopWidth: 0,
+                paddingTop:13,
                 width:width,
-                height: moderateScale(60),
-                paddingBottom: Platform.OS == "ios" ? moderateScale(15) : moderateScale(6),
-                backgroundColor:colors.theme
+                height: moderateScale(80),
+                paddingBottom: Platform.OS == "ios" ? moderateScale(15) : moderateScale(10),
+                backgroundColor:colors.theme,
+                // paddingVertical:moderateScale(100)
 
             }
 
@@ -87,7 +106,7 @@ const TabStack = ({route}) => {
 
     >
         <Tab.Screen name={'Home'} options={{ headerShown: false }} component={Home} />
-        <Tab.Screen name={'My Request'} options={{ headerShown: false }} component={Home} />
+        <Tab.Screen name={'My Request'} options={{ headerShown: false }} component={MyRequest} />
         <Tab.Screen name={'My Ride'} options={{ headerShown: false }} component={MyRide} />
         <Tab.Screen name={'Wallet'} options={{ headerShown: false }} component={Wallet} />
 
@@ -145,10 +164,25 @@ const MainRoutes = () => {
                 <Stack.Screen name="ConfirmRide" component={ConfirmRide} />
                 <Stack.Screen name="RideStatus" component={RideStatus} />
                 <Stack.Screen name="Location" component={Location} />
+                <Stack.Screen name="RequestDetails" component={RequestDetails} />
+                <Stack.Screen name="BidDetails" component={BidDetails} />
+                <Stack.Screen name="LuggageAllowance" component={LuggageAllowance} />
+                <Stack.Screen name="InterCityRideDetail" component={InterCityRideDetail} />
+                <Stack.Screen name="LocalRideDetails" component={LocalRideDetails} />
+                <Stack.Screen name="QrScanner" component={QrScanner} />
+                <Stack.Screen name="DriverDetails" component={DriverDetails} />
+                <Stack.Screen name="QrHome" component={QrHome} />
+                <Stack.Screen name="QrInterCity_Rentel" component={QrInterCity_Rentel} />
+                <Stack.Screen name="QrRideDetails" component={QrRideDetails} />
+                <Stack.Screen name="SelectPassenger" component={SelectPassenger} />
+                <Stack.Screen name="Depart_Arrival" component={Depart_Arrival} />
+                <Stack.Screen name="DriverList" component={DriverList} />
 
+                {/* DriverList */}
                 
+                {/* BidDetails */}
                 
-                
+                {/* RequestDetails */}
                 
 
             </Stack.Navigator>
