@@ -9,17 +9,11 @@
     "start": "react-native start",
     "test": "jest",
     "build": "cd android && ./gradlew clean && ./gradlew assembleRelease"
-
   },
   "reactNativePermissionsIOS": [
-    "Camera",
     "LocationAccuracy",
     "LocationAlways",
-    "LocationWhenInUse",
-    "MediaLibrary",
-    "Notifications",
-    "PhotoLibrary",
-    "PhotoLibraryAddOnly"
+    "LocationWhenInUse"
   ],
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.7",
@@ -32,12 +26,14 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
     "@twotalltotems/react-native-otp-input": "^1.3.11",
+    "lottie-react-native": "^6.2.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-calendars": "^1.1300.0",
     "react-native-element-dropdown": "^2.9.0",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-heroicons": "^3.2.0",
+    "react-native-image-picker": "^5.6.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "^1.7.1",
     "react-native-maps-directions": "^1.9.0",
