@@ -120,7 +120,7 @@ const PushNotifaction = () => {
 
                   <Switch
                     trackColor={{false: '#767577', true: colors.yellow}}
-                    thumbColor={item.enabled ? '#f5dd4b' : '#f4f3f4'}
+                    thumbColor={item.enabled ? '#ffff' : '#f4f3f4'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={() => toggleSwitch(index)}
                     value={item.enabled}

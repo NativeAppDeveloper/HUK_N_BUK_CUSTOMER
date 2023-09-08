@@ -30,6 +30,7 @@ import RideCancelModal from '../../../component/modal/RideCancelModal';
 import { PlusIcon } from 'react-native-heroicons/solid';
 import { AirbnbRating } from 'react-native-ratings';
 import CancelModal from '../../../component/modal/CancelModal';
+import Dash from 'react-native-dash-2';
 
 const RdieDetails = ({ route }) => {
   const navigation = useNavigation();
@@ -64,13 +65,18 @@ const RdieDetails = ({ route }) => {
 
   return (
     <>
+        {
+        //#region  map
+        <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
+        //#endregion
+      }
       {Platform.OS == 'android' && <SafeAreaView />}
       <View
         style={{
           backgroundColor: colors.white,
           ...Platform.select({
             ios: {
-              paddingTop: iphone8 ? moderateScale(10) : moderateScale(10),
+              paddingTop: iphone8 ? moderateScale(10) : moderateScale(40),
             },
           }),
         }}>
@@ -119,11 +125,7 @@ const RdieDetails = ({ route }) => {
         }
       </View>
 
-      {
-        //#region  map
-        <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
-        //#endregion
-      }
+  
 
       <GestureHandlerRootView
         style={{
@@ -223,7 +225,7 @@ const RdieDetails = ({ route }) => {
                       </View>
                     </View>
 
-                    <View
+                    {/* <View
                       style={{
                         height: 50,
                         borderColor: 'black',
@@ -256,6 +258,51 @@ const RdieDetails = ({ route }) => {
                           456 km
                         </Text>
                       </View>
+                    </View> */}
+
+                    <View style={{flexDirection:'row'}}>
+                    <Dash
+              style={{
+                width: 1,
+                height: 60,
+                flexDirection: 'column',
+                left: moderateScale(10),
+              }}
+            />
+
+            <View
+              style={{
+                marginHorizontal: scale(10),
+                // alignItems:'center',
+                justifyContent: 'center',
+                // top: moderateVerticalScale(5),
+                paddingLeft: 20,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  bottom: moderateScale(15),
+                  paddingHorizontal:moderateScale(15)
+                }}>
+                <Image style={{height: 17, width: 17}} source={icon.Time} />
+
+                <Text style={{fontSize: 10, fontFamily: fonts.regular,color:colors.theme}}>
+                  {' '}
+                  4h50m
+                </Text>
+                <Image
+                  style={{
+                    height: 17,
+                    width: 17,
+                    marginHorizontal: scale(10),
+                  }}
+                  source={icon.distance}
+                />
+                <Text style={{fontSize: 10, color: '#f7954a'}}>456 km</Text>
+              </View>
+            </View>
                     </View>
 
                     <View style={{ flexDirection: 'row', marginTop: 8 }}>

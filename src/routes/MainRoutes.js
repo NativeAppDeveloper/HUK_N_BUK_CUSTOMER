@@ -96,7 +96,7 @@ const TabStack = ({route}) => {
                 paddingTop:13,
                 width:width,
                 height: moderateScale(80),
-                paddingBottom: Platform.OS == "ios" ? moderateScale(15) : moderateScale(10),
+                paddingBottom: Platform.OS == "ios" ? moderateScale(25) : moderateScale(10),
                 backgroundColor:colors.theme,
                 // paddingVertical:moderateScale(100)
 

@@ -20,6 +20,17 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.544322359237-gilq8lo76p21rtoq5fhh3o9olgvlpv5s</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -43,9 +54,6 @@
 	<string>Huk N Buk would like to use your Location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Huk N Buk would like to use your Location</string>
-
-
-
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Black.ttf</string>

@@ -15,6 +15,8 @@ import {colors} from '../../utils/Styles';
 import SignupSeteps from '../../component/common/SignupSeteps';
 import Button from '../../component/customButton/Button';
 import {useDispatch} from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import { errorTost, sucessTost } from '../../utils/Helper';
 
 const LoginOtp = props => {
   const navigation = useNavigation();
@@ -30,26 +32,91 @@ const LoginOtp = props => {
   const isFocused = useIsFocused();
   let paramData = props?.route?.params?.item;
   // define all state here
+  const [confirm, setConfirm] = useState(null);
+
+    // verification code (OTP - One-Time-Passcode)
+    const [code, setCode] = useState('');
+    const [verificationCode,setVerificationCode]=useState('')
+
   const [openFlag, setOpenFlag] = useState(false);
   const [matchOtp, setMatchOtp] = useState('');
   const [enterOtp, setEnterOtp] = useState('');
   const [seconds, setSeconds] = useState(59);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
-  const [checkNum, setCheckNum] = useState(true);
+  const [checkNum, setCheckNum] = useState(null);
   const checkPhoneEmail = () => {
     console.log(paramData);
     if (!isNaN(paramData)) {
       setCheckNum(true);
-      console.log('hekk');
     } else {
       setCheckNum(false);
-      console.log('sdjdhdhd');
     }
   };
+
+
+// get otp form firebase
+const getOtp1 = async () => {
+  let phoneNumber=`+91${paramData}`
+  console.log('yelllll')
+  try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber)
+      console.log("confirmation***********", confirmation);
+      setVerificationCode(confirmation?.verificationId)
+  } catch (error) {
+
+      console.log('Error sending verification code: ', error);
+  }
+}
+
+// verify otp form firebase
+const handleOTP = async () => {
+  dispatch({
+    type: 'CHANGE_STACK',
+    payload: 'MAIN',
+  })
+
+  return
+  if(code==''){
+    errorTost('Please enter otp')
+    return
+  }
+  if(code.length<6){
+    errorTost('Please enter valid')
+    return
+  }
+
+  try {
+      const cred = auth.PhoneAuthProvider.credential(verificationCode, code)
+      let userData = await auth().signInWithCredential(cred);
+      // dispatch({
+      //   type: 'CHANGE_STACK',
+      //   payload: 'MAIN',
+      // })
+      console.log("******&&&check new uid", userData);
+      // handleEmailotp()
+  }
+  catch (error) {
+      if (error.code == 'auth/invalid-verification-code') {
+          errorTost('Otp does not match');
+      } else {
+        
+          toastShow(error.code)
+      }
+  }
+
+}
 
   useEffect(() => {
     checkPhoneEmail();
   }, []);
+
+
+  useEffect(() => {
+    if(checkNum){
+      // getOtp1()
+    }
+  }, [checkNum])
+  
 
   // timer start
   useEffect(() => {
@@ -83,7 +150,7 @@ const LoginOtp = props => {
             color={colors.gray}
             text={`We have sent you a 6 digit verification code on `}
           />
-          <Text14 text={checkNum ? '+91 6556565656' : 'sac123sh@gmail.com'} />
+          <Text14 text={paramData} />
 
           <OTPInputView
             style={{
@@ -98,16 +165,17 @@ const LoginOtp = props => {
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
             onCodeFilled={code => {
-              setEnterOtp(code);
+              // setEnterOtp(code);
+              setCode(code)
               console.log(`Code is ${code}, you are good to go!`);
             }}
           />
           <Button
+                    backgroundColor={colors.yellow}
+
+          // backgroundColor={code.length<6?colors.placeholderColor:colors.yellow}
             onPress={() =>
-              dispatch({
-                type: 'CHANGE_STACK',
-                payload: 'MAIN',
-              })
+              handleOTP()
             }
             width={'100%'}
             mt={moderateVerticalScale(20)}

@@ -11,10 +11,22 @@ import { icon } from '../../../utils/Image'
 import SignupSeteps from '../../../component/common/SignupSeteps'
 import { CheckIcon } from "react-native-heroicons/solid";
 import { useNavigation } from '@react-navigation/native'
+import { errorTost } from '../../../utils/Helper'
 
 const Step2 = () => {
     const navigation=useNavigation()
     const [select, setSelectd] = useState(null)
+
+    const nextHandler=()=>{
+        navigation.navigate('Step3')
+
+        return
+        if(select==null){
+            errorTost('Please select gender')
+            return
+        }
+        navigation.navigate('Step3')
+    }
     return (
         <SafeAreaView>
             <View style={{ width: "90%", alignSelf: 'center' }}>
@@ -44,14 +56,14 @@ const Step2 = () => {
                                 [{ lable: 'Male', value: 'male' }, { lable: 'Female', value: 'male' }, { lable: 'Other', value: 'male' }].map((data, ind) => {
                                     return (
                                         <TouchableOpacity
-                                            onPress={() => setSelectd(ind)}
-                                            style={{ backgroundColor: colors.white, marginVertical: moderateVerticalScale(10), padding: moderateScale(10), borderRadius: moderateScale(6), borderWidth: 1, borderColor: select == ind ? colors.yellow : colors.white, flexDirection: 'row', alignItems: "center", justifyContent: "space-between" }}
+                                            onPress={() => setSelectd(data.lable)}
+                                            style={{ backgroundColor: colors.white, marginVertical: moderateVerticalScale(10), padding: moderateScale(10), borderRadius: moderateScale(6), borderWidth: 1, borderColor: select == data.lable ? colors.yellow : colors.white, flexDirection: 'row', alignItems: "center", justifyContent: "space-between" }}
                                             key={ind}
                                         >
                                             <Text14
                                                 color={colors.theme}
                                                 text={data.lable} />
-                                           {select==ind&& <CheckIcon size={moderateScale(20)} color={colors.theme} />}
+                                           {select==data.lable&& <CheckIcon size={moderateScale(20)} color={colors.theme} />}
                                         </TouchableOpacity>
                                     )
                                 })
@@ -64,7 +76,7 @@ const Step2 = () => {
                         //#region  Next Button
                         <View>
                             <Button
-                                onPress={() => navigation.navigate('Step3')}
+                                onPress={() =>nextHandler()}
                                 width={'100%'}
                                 mt={moderateVerticalScale(20)}
                                 text={'Next'}

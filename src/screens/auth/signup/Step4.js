@@ -10,10 +10,27 @@ import Button from '../../../component/customButton/Button'
 import { icon } from '../../../utils/Image'
 import SignupSeteps from '../../../component/common/SignupSeteps'
 import { useNavigation } from '@react-navigation/core'
+import Validator from '../../../utils/Validator'
+import { errorTost } from '../../../utils/Helper'
 
 const Step4 = () => {
     const [step, setStep] = useState(1)
+    const [email,setEmail]=useState('')
     const navigation = useNavigation()
+
+    const nextHandler=()=>{
+        navigation.navigate('Otp',{flow:'email',value:email})
+return
+        Validator.isEmpty(email)?
+        errorTost('Please enter email')
+        :
+        !Validator.isEmail(email)?
+        errorTost('Please enter valid email')
+        :
+        // console.log(';yes')
+        navigation.navigate('Otp',{flow:'email',value:email})
+
+    }
     return (
         <SafeAreaView>
             <View style={{ width: "90%", alignSelf: 'center' }}>
@@ -42,6 +59,8 @@ const Step4 = () => {
                         //#region Name Components
                         <View style={{ width: '100%' }}>
                             <Input
+                                value={email}
+                                onChangeText={(val)=>setEmail(val)}
                                 placeHolder={'Enter Email'}
                                 mt={moderateVerticalScale(30)}
 
@@ -55,7 +74,7 @@ const Step4 = () => {
                         //#region  Next Button
                         <View>
                             <Button
-                                onPress={() => navigation.navigate('Otp',{flow:'email'})}
+                                onPress={() => nextHandler()}
                                 width={'100%'}
                                 mt={moderateVerticalScale(20)}
                                 text={'Submit'}

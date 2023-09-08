@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "544322359237",
+    "project_id": "huknbukuser",
+    "storage_bucket": "huknbukuser.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544322359237:android:7321b506b9798fae8685ac",
+        "android_client_info": {
+          "package_name": "com.huk_n_buk_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544322359237-v3r8j10vlpt4cgi39jien6vohv2gb4jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.huk_n_buk_customer",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "544322359237-rreisqukhirghbrh06kt3uielv0egc4u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc-TXYR2f5YWZtWwtfNyFbAdgmGBemWvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544322359237-rreisqukhirghbrh06kt3uielv0egc4u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

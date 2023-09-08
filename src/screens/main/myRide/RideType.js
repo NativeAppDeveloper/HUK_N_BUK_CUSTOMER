@@ -17,7 +17,8 @@ import Text16 from '../../../component/customText/Text16';
 import Text14 from '../../../component/customText/Text14';
 import Text12 from '../../../component/customText/Text12';
 import {useNavigation} from '@react-navigation/native';
-import { StarIcon } from 'react-native-heroicons/solid';
+import {StarIcon} from 'react-native-heroicons/solid';
+import Dash from 'react-native-dash-2';
 
 const RideType = ({route}) => {
   const rideType = route?.params?.rideType;
@@ -38,8 +39,7 @@ const RideType = ({route}) => {
     },
   ]);
 
-
-  console.log(rideType,'[popopopo');
+  console.log(rideType, '[popopopo');
 
   return (
     <View style={[CommonStyle.container, styles.container]}>
@@ -71,17 +71,23 @@ const RideType = ({route}) => {
           data={[1, 1, 1, 1, 1, 1]}
           renderItem={() => (
             <TouchableOpacity
-              onPress={()=>{
-                  if(rideType=='Intercity'){
-                    console.log('1')
-                    navigate('InterCityRideDetail',{rideStatus:tabData[activeTab].name})
-                  }
-                  if(rideType=='Outstation'){
-                    navigate('RdieDetails',{rideStatus:tabData[activeTab].name})
-                  }
-                  if(rideType=='Local Rental'){
-                    navigate('LocalRideDetails',{rideStatus:tabData[activeTab].name})
-                  }
+              onPress={() => {
+                if (rideType == 'Intercity') {
+                  console.log('1');
+                  navigate('InterCityRideDetail', {
+                    rideStatus: tabData[activeTab].name,
+                  });
+                }
+                if (rideType == 'Outstation') {
+                  navigate('RdieDetails', {
+                    rideStatus: tabData[activeTab].name,
+                  });
+                }
+                if (rideType == 'Local Rental') {
+                  navigate('LocalRideDetails', {
+                    rideStatus: tabData[activeTab].name,
+                  });
+                }
               }}
               // onPress={()=>navigate('RdieDetails',{rideStatus:tabData[activeTab].name})}
               // onPress={()=>navigate('InterCityRideDetail',{rideStatus:tabData[activeTab].name})}
@@ -89,20 +95,30 @@ const RideType = ({route}) => {
 
               LocalRideDetails
               style={styles.itemContainer}>
-              <View style={[styles.bookingIdContainer,{flexDirection:'row',justifyContent:'space-between'}]}>
+              <View
+                style={[
+                  styles.bookingIdContainer,
+                  {flexDirection: 'row', justifyContent: 'space-between'},
+                ]}>
                 <Text
                   style={
                     styles.bookingIdText
                   }>{`Booking ID #41651651561 • One Way`}</Text>
 
-
-                  <View style={{flexDirection:'row'}}>
-                    <Image style={{height:moderateScale(20),width:moderateScale(20)}} source={icon.timer1}/>
-                    <Text12 text={' 3 Hour / 30km'}
+                <View style={{flexDirection: 'row'}}>
+                  <Image
+                    style={{
+                      height: moderateScale(20),
+                      width: moderateScale(20),
+                    }}
+                    source={icon.timer1}
+                  />
+                  <Text12
+                    text={' 3 Hour / 30km'}
                     color={colors.gray}
                     fontSize={10}
-                    />
-                  </View>
+                  />
+                </View>
               </View>
 
               {
@@ -112,67 +128,125 @@ const RideType = ({route}) => {
                     paddingHorizontal: scale(10),
                     marginTop: moderateScale(10),
                   }}>
-                {(rideType=='Intercity'||rideType=="Outstation")&&  <View>
+                  {(rideType == 'Intercity' || rideType == 'Outstation') && (
+                    <View>
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            height: moderateScale(23),
+                            width: moderateScale(23),
+                          }}>
+                          <Image
+                            source={icon.currentLocation}
+                            style={CommonStyle.img}
+                          />
+                        </View>
+
+                        <View>
+                          <Text14
+                            color={colors.theme}
+                            mt={1}
+                            text={'333B, Anchorv  ale Link'}
+                          />
+                          <Text12
+                            fontFamily={fonts.regular}
+                            color={colors.gray}
+                            text={'Pick up 12:05PM, 23 Feb'}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  )}
+
+                  {rideType !== 'Local Rental' && (
+                    // <View
+                    //     style={{
+                    //       height: 50,
+                    //       borderColor: 'black',
+                    //       borderLeftWidth: 1,
+                    //       borderStyle: 'dashed',
+                    //       marginHorizontal: scale(10),
+                    //       // alignItems:'center',
+                    //       justifyContent: 'center',
+                    //       paddingLeft: 20,
+                    //     }}>
+                    //     <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    //       <Image
+                    //         style={{height: 17, width: 17}}
+                    //         source={icon.Time}
+                    //       />
+                    //       <Text style={{fontSize: 10, fontFamily: fonts.regular}}>
+                    //         {' '}
+                    //         4h50m
+                    //       </Text>
+                    //       <Image
+                    //         style={{
+                    //           height: 17,
+                    //           width: 17,
+                    //           marginHorizontal: scale(10),
+                    //         }}
+                    //         source={icon.distance}
+                    //       />
+                    //       <Text style={{fontSize: 10, color: '#f7954a'}}>
+                    //         456 km
+                    //       </Text>
+                    //     </View>
+                    //   </View>
                     <View style={{flexDirection: 'row'}}>
+                      <Dash
+                        style={{
+                          width: 1,
+                          height: 60,
+                          flexDirection: 'column',
+                          left: moderateScale(10),
+                        }}
+                      />
+
                       <View
                         style={{
-                          height: moderateScale(23),
-                          width: moderateScale(23),
-                        }}>
-                        <Image
-                          source={icon.currentLocation}
-                          style={CommonStyle.img}
-                        />
-                      </View>
-
-                      <View>
-                        <Text14
-                          color={colors.theme}
-                          mt={1}
-                          text={'333B, Anchorv  ale Link'}
-                        />
-                        <Text12
-                          fontFamily={fonts.regular}
-                          color={colors.gray}
-                          text={'Pick up 12:05PM, 23 Feb'}
-                        />
-                      </View>
-                    </View>
-                  </View>}
-
-                {rideType !=='Local Rental' && <View
-                    style={{
-                      height: 50,
-                      borderColor: 'black',
-                      borderLeftWidth: 1,
-                      borderStyle: 'dashed',
-                      marginHorizontal: scale(10),
-                      // alignItems:'center',
-                      justifyContent: 'center',
-                      paddingLeft: 20,
-                    }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Image
-                        style={{height: 17, width: 17}}
-                        source={icon.Time}
-                      />
-                      <Text style={{fontSize: 10, fontFamily: fonts.regular}}>
-                        {' '}
-                        4h50m
-                      </Text>
-                      <Image
-                        style={{
-                          height: 17,
-                          width: 17,
                           marginHorizontal: scale(10),
-                        }}
-                        source={icon.distance}
-                      />
-                      <Text style={{fontSize: 10, color: '#f7954a'}}>
-                        456 km
-                      </Text>
+                          // alignItems:'center',
+                          justifyContent: 'center',
+                          // top: moderateVerticalScale(5),
+                          paddingLeft: 20,
+                        }}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            bottom: moderateScale(15),
+                            paddingHorizontal: moderateScale(15),
+                          }}>
+                          <Image
+                            style={{height: 17, width: 17}}
+                            source={icon.Time}
+                          />
+
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              fontFamily: fonts.regular,
+                              color: colors.theme,
+                            }}>
+                            {' '}
+                            4h50m
+                          </Text>
+                          <Image
+                            style={{
+                              height: 17,
+                              width: 17,
+                              marginHorizontal: scale(10),
+                            }}
+                            source={icon.distance}
+                          />
+                          <Text style={{fontSize: 10, color: '#f7954a'}}>
+                            456 km
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                  </View>}
+                  )}
 
                   <View style={{flexDirection: 'row', marginTop: 8}}>
                     <View
@@ -180,10 +254,7 @@ const RideType = ({route}) => {
                         height: moderateScale(23),
                         width: moderateScale(23),
                       }}>
-                      <Image
-                        source={icon.location}
-                        style={CommonStyle.img}
-                      />
+                      <Image source={icon.location} style={CommonStyle.img} />
                     </View>
 
                     <View>
@@ -224,18 +295,21 @@ const RideType = ({route}) => {
                   </View>
 
                   <View style={{marginLeft: 15}}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Text14
-                      color={colors.theme}
-                      mt={1}
-                      text={'Akshit Kumar •'}
-                    />
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Text14
+                        color={colors.theme}
+                        mt={1}
+                        text={'Akshit Kumar •'}
+                      />
 
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                      <StarIcon color={colors.yellow} size={moderateScale(10)}/>
-                      <Text12 color={colors.placeholderColor} text={'4.5'}/>
-                    </View>
-
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <StarIcon
+                          color={colors.yellow}
+                          size={moderateScale(10)}
+                        />
+                        <Text12 color={colors.placeholderColor} text={'4.5'} />
+                      </View>
                     </View>
                     <Text12
                       fontFamily={fonts.regular}

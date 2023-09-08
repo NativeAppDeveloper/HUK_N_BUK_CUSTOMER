@@ -17,6 +17,7 @@ import Text16 from '../../../component/customText/Text16';
 import Text14 from '../../../component/customText/Text14';
 import { useNavigation } from '@react-navigation/core';
 import Text12 from '../../../component/customText/Text12';
+import Dash from 'react-native-dash-2';
 
 const MyRequest = () => {
   const { navigate } = useNavigation();
@@ -134,40 +135,50 @@ const MyRequest = () => {
                       </View>
                     </View>
 
-                    <View
-                      style={{
-                        height: 50,
-                        borderColor: 'black',
-                        borderLeftWidth: 1,
-                        borderStyle: 'dashed',
-                        marginHorizontal: scale(10),
-                        // alignItems:'center',
-                        justifyContent: 'center',
-                        paddingLeft: 20,
-                      }}>
-                      <View
-                        style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image
-                          style={{ height: 17, width: 17 }}
-                          source={icon.Time}
-                        />
-                        <Text style={{ fontSize: 10, fontFamily: fonts.regular,color:colors.theme }}>
-                          {' '}
-                          456 km
-                        </Text>
-                        <Image
-                          style={{
-                            height: 17,
-                            width: 17,
-                            marginHorizontal: scale(10),
-                          }}
-                          source={icon.distance}
-                        />
-                        <Text style={{ fontSize: 10, color: '#f7954a' }}>
-                          456 km
-                        </Text>
-                      </View>
-                    </View>
+                          <View style={{flexDirection:'row'}}>
+                          <Dash
+              style={{
+                width: 1,
+                height: 60,
+                flexDirection: 'column',
+                left: moderateScale(10),
+              }}
+            />
+
+            <View
+              style={{
+                marginHorizontal: scale(10),
+                // alignItems:'center',
+                justifyContent: 'center',
+                // top: moderateVerticalScale(5),
+                paddingLeft: 20,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  bottom: moderateScale(15),
+                  paddingHorizontal:moderateScale(15)
+                }}>
+                <Image style={{height: 17, width: 17}} source={icon.Time} />
+
+                <Text style={{fontSize: 10, fontFamily: fonts.regular,color:colors.theme}}>
+                  {' '}
+                  4h50m
+                </Text>
+                <Image
+                  style={{
+                    height: 17,
+                    width: 17,
+                    marginHorizontal: scale(10),
+                  }}
+                  source={icon.distance}
+                />
+                <Text style={{fontSize: 10, color: '#f7954a'}}>456 km</Text>
+              </View>
+            </View>
+                          </View>
 
                     <View style={{ flexDirection: 'row', marginTop: 8 }}>
                       <View

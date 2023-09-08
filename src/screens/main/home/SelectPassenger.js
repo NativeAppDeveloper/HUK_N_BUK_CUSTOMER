@@ -17,6 +17,7 @@ import Text24 from '../../../component/customText/Text24';
 import Button from '../../../component/customButton/Button';
 import {useNavigation} from '@react-navigation/core';
 import Text18 from '../../../component/customText/Text18';
+import { iphone8 } from '../../../utils/Helper';
 
 const SelectPassenger = () => {
   const [adultCount, setAdultCount] = useState(1);

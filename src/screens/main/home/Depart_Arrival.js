@@ -17,6 +17,7 @@ import Text24 from '../../../component/customText/Text24';
 import Button from '../../../component/customButton/Button';
 import {useNavigation} from '@react-navigation/core';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { iphone8 } from '../../../utils/Helper';
 
 const Depart_Arrival = () => {
   const [selected, setSelected] = useState('');

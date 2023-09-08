@@ -10,10 +10,31 @@ import Button from '../../../component/customButton/Button'
 import { icon } from '../../../utils/Image'
 import SignupSeteps from '../../../component/common/SignupSeteps'
 import { useNavigation } from '@react-navigation/core'
+import Validator from '../../../utils/Validator'
+import { errorTost } from '../../../utils/Helper'
 
 const Step5 = () => {
     const [step, setStep] = useState(1)
     const navigation = useNavigation()
+    const [mobileNo,setMobileNo]=useState('')
+
+
+    const nextHandler=()=>{
+        navigation.navigate('Otp',{flow:'phone',value:mobileNo})
+return
+     if(mobileNo==''){
+        errorTost('Please enter mobile number')
+        return
+     }
+     if(mobileNo.length<10){
+        errorTost('Please enter valid mobile number')
+        return
+     }
+     else{
+        navigation.navigate('Otp',{flow:'phone',value:mobileNo})
+     }
+
+    }
     return (
         <SafeAreaView>
             <View style={{ width: "90%", alignSelf: 'center' }}>
@@ -42,6 +63,8 @@ const Step5 = () => {
                         //#region Name Components
                         <View style={{ width: '100%' }}>
                             <Input
+                            onChangeText={(val)=>setMobileNo(val)}
+                            value={mobileNo}
                             keyboardType={'numeric'}
                                 placeHolder={'Enter Mobile No.'}
                                 mt={moderateVerticalScale(30)}
@@ -55,7 +78,7 @@ const Step5 = () => {
                         //#region  Next Button
                         <View>
                             <Button
-                                onPress={() => navigation.navigate('Otp',{flow:'mobile'})}
+                                onPress={() => nextHandler()}
                                 width={'100%'}
                                 mt={moderateVerticalScale(20)}
                                 text={'Submit'}
