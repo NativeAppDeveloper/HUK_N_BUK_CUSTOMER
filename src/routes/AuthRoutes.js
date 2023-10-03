@@ -11,6 +11,7 @@ import Step4 from '../screens/auth/signup/Step4';
 import Step5 from '../screens/auth/signup/Step5';
 import RegistrationComplete from '../screens/auth/signup/RegistrationComplete';
 import LoginOtp from '../screens/auth/LoginOtp';
+import MobileOptVerify from '../screens/auth/MobileOptVerify';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,9 @@ const AuthRoutes = () => {
             <Stack.Screen name="Step3" component={Step3} />
             <Stack.Screen name="Step4" component={Step4} />
             <Stack.Screen name="Step5" component={Step5} />
+            <Stack.Screen name="MobileOptVerify" component={MobileOptVerify} />
+
+            
             <Stack.Screen name="RegistrationComplete" component={RegistrationComplete} />
         </Stack.Navigator>
     )

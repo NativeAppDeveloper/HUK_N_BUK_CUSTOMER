@@ -12,3 +12,18 @@ export const ChangeStackReducer=((state=initialData,action)=>{
         return state;
     }
 })
+
+
+const modalData={
+    modalStatus:false
+}
+
+
+export const modalReducer=((state=modalData,action)=>{
+    switch(action.type){
+        case 'LOADER_STATUS':
+            return { ...state,modalStatus:action.payload};
+        default: 
+        return state;
+    }
+})

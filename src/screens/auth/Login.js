@@ -18,20 +18,25 @@ import {useNavigation} from '@react-navigation/native';
 import {errorTost, width} from '../../utils/Helper';
 import toastShow from '../../utils/Toast';
 import Validator from '../../utils/Validator';
+import {checkPhoneEmailSercvies} from '../../services/Services';
 
 const Login = () => {
   const navigation = useNavigation();
   const [loginValue, setLoginValue] = useState('');
 
   const loginHandler = () => {
-    // if (loginValue == '') {
-    //   errorTost('Please enter email or phone number');
-    //   return;
-    // } else if (checkPhoneEmail()) {
-    //   navigation.navigate('LoginOtp', {item: loginValue});
-    // }
-    navigation.navigate('LoginOtp', {item: loginValue});
+    if (loginValue == '') {
+      errorTost('Please enter email or phone number');
+      return;
+    }
+    if (checkPhoneEmail()) {
+      checUserExist();
+      // navigation.navigate('LoginOtp', {item: loginValue});
+    }
+    // else{
+    //   // navigation.navigate('LoginOtp', {item: loginValue});
 
+    // }
   };
 
   const checkPhoneEmail = () => {
@@ -49,6 +54,20 @@ const Login = () => {
       }
     }
     return true;
+  };
+
+  const checUserExist = async () => {
+    let objToSend = {
+      email: '',
+      phoneNumber: loginValue,
+    };
+    try {
+      let response = await checkPhoneEmailSercvies(objToSend);
+      navigation.navigate('LoginOtp', {item: loginValue});
+    } catch (error) {
+      console.log(error.response.data);
+      errorTost(error.response.data.message);
+    }
   };
 
   return (

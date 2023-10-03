@@ -12,19 +12,19 @@ import SignupSeteps from '../../../component/common/SignupSeteps'
 import { CheckIcon } from "react-native-heroicons/solid";
 import { useNavigation } from '@react-navigation/native'
 import { errorTost } from '../../../utils/Helper'
+import { signUpDetails } from '../../../utils/localVariable'
 
 const Step2 = () => {
     const navigation=useNavigation()
     const [select, setSelectd] = useState(null)
 
     const nextHandler=()=>{
-        navigation.navigate('Step3')
 
-        return
         if(select==null){
             errorTost('Please select gender')
             return
         }
+        signUpDetails.gender=select
         navigation.navigate('Step3')
     }
     return (

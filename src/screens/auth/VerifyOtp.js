@@ -16,10 +16,15 @@ import SignupSeteps from '../../component/common/SignupSeteps';
 import Button from '../../component/customButton/Button';
 import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
+import {
+  getOtpFromEmailServices,
+  verifyEmailOtpServices,
+} from '../../services/Services';
+import {sucessTost} from '../../utils/Helper';
+import { signUpDetails } from '../../utils/localVariable';
 
 const VerifyOtp = props => {
   const navigation = useNavigation();
-
   const dispatch = useDispatch();
 
   const btnHandler = () => {
@@ -30,13 +35,12 @@ const VerifyOtp = props => {
   };
 
   // let {route} = props;
-  let paramData=props?.route.params?.flow
-  let value=props?.route.params?.value
+  let paramData = props?.route.params?.flow;
+  let value = props?.route.params?.value;
   const isFocused = useIsFocused();
-  const [checkNum, setCheckNum] = useState(null);
-
-
-  console.log(value)
+  const [checkNum, setCheckNum] = useState(false);
+  const [mail,setMail]=useState('')
+  // console.log(value);
 
   // define all state here
   const [openFlag, setOpenFlag] = useState(false);
@@ -46,19 +50,17 @@ const VerifyOtp = props => {
   const [seconds, setSeconds] = useState(59);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
 
-  const otpHandler=()=>{
-    if(paramData=='email'){
-      navigation.navigate('Step5')
+  const otpHandler = () => {
+    if (paramData == 'email') {
+      emailVerifiy()    
+    } else {
+      navigation.navigate('RegistrationComplete');
     }
-    else{
-      navigation.navigate('RegistrationComplete')
-    }
-  }
-
+  };
 
   const checkPhoneEmail = () => {
-    console.log(paramData);
-    if (isNaN(paramData)) {
+    // console.log(paramData);
+    if (isNaN(value)) {
       setCheckNum(true);
     } else {
       setCheckNum(false);
@@ -66,101 +68,70 @@ const VerifyOtp = props => {
   };
 
 
-  console.log(checkNum)
+  const getOtpFunction = async () => {
+    let objToSend = {
+      email:value,
+    };
+    try {
+      let response = await getOtpFromEmailServices(objToSend);
+      console.log(response.data, 'sucess');
+      sucessTost('123456');
+    } catch (error) {
+      console.log(error, 'errror');
+    }
+  };
 
+  const emailVerifiy = async () => {
+    let objToSend = {
+      email: value,
+      otp:123456,
+    };
+    try {
+      let response = await verifyEmailOtpServices(objToSend);
+      console.log(response.data);
+      signUpDetails.email=value
+      navigation.navigate('Step5');
+    } catch (error) {
+      console.log(error.response.data)
+    }
+  };
 
-
-// get otp form firebase
-const getOtp1 = async () => {
-  let phoneNumber=`+91${paramData}`
-  console.log('yelllll')
-  try {
-      const confirmation = await auth().signInWithPhoneNumber(phoneNumber)
-      console.log("confirmation***********", confirmation);
-      setVerificationCode(confirmation?.verificationId)
-  } catch (error) {
-
-      console.log('Error sending verification code: ', error);
-  }
-}
-
-// verify otp form firebase
-const handleOTP = async () => {
-
-  // dispatch({
-  //   type: 'CHANGE_STACK',
-  //   payload: 'MAIN',
-  // })
-
-
-  if(code==''){
-    errorTost('Please enter otp')
-    return
-  }
-  if(code.length<6){
-    errorTost('Please enter valid')
-    return
-  }
-
-  try {
-      const cred = auth.PhoneAuthProvider.credential(verificationCode, code)
-      let userData = await auth().signInWithCredential(cred);
-      dispatch({
-        type: 'CHANGE_STACK',
-        payload: 'MAIN',
-      })
-      console.log("******&&&check new uid", userData);
-      // handleEmailotp()
-  }
-  catch (error) {
-      if (error.code == 'auth/invalid-verification-code') {
-          errorTost('Otp does not match');
-      } else {
-        
-          toastShow(error.code)
-      }
-  }
-
-}
-
-
-useEffect(() => {
-  checkPhoneEmail();
-}, []);
-
-
-useEffect(() => {
-  if(checkNum){
-    console.log('123')
-    // getOtp1()
-  }
-}, [checkNum])
-
-
-  useEffect(() => {
-    checkPhoneEmail()
-  }, [])
-  
-
-  // timer start
   useEffect(() => {
     if (isFocused) {
-      let interval = null;
-      if (isTimerRunning) {
-        interval = setInterval(() => {
-          setSeconds(seconds => {
-            if (seconds === 0) {
-              clearInterval(interval);
-              setIsTimerRunning(false);
-              return 30;
-            }
-            return seconds - 1;
-          });
-        }, 1000);
-      }
-      return () => clearInterval(interval);
+      getOtpFunction();
     }
-  }, [isTimerRunning, isFocused]);
+  }, [isFocused]);
+
+  useEffect(() => {
+    checkPhoneEmail();
+  }, []);
+
+  useEffect(() => {
+    if (checkNum) {
+      console.log('123');
+      // getOtp1()
+    }
+  }, [checkNum]);
+
+  // timer start
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     let interval = null;
+  //     if (isTimerRunning) {
+  //       interval = setInterval(() => {
+  //         setSeconds(seconds => {
+  //           if (seconds === 0) {
+  //             clearInterval(interval);
+  //             setIsTimerRunning(false);
+  //             return 30;
+  //           }
+  //           return seconds - 1;
+  //         });
+  //       }, 1000);
+  //     }
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [isTimerRunning, isFocused]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -200,12 +171,14 @@ useEffect(() => {
             text={'Verify'}
           />
           <View>
-            <TouchableOpacity onPress={()=> navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text14
                 textAlign={'center'}
                 mt={25}
                 color={colors.gray}
-                text={!checkNum?'Change my email id':'Change my mobile number'}
+                text={
+                  !checkNum ? 'Change my email id' : 'Change my mobile number'
+                }
               />
             </TouchableOpacity>
           </View>

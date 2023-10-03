@@ -21,3 +21,14 @@ export const errorTost= (msg)=>{
 export const sucessTost= (msg)=>{
   return  toastShow(msg,colors.green)
 }
+
+
+export const showLoader={
+  type:'LOADER_STATUS',
+  payload:true
+}
+
+export const closeLoader={
+  type:'LOADER_STATUS',
+  payload:false
+}

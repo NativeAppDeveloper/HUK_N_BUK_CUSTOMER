@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackHandler from '../../../component/BackHandler';
 import {moderateScale, scale} from 'react-native-size-matters';
@@ -21,19 +21,71 @@ import {icon} from '../../../utils/Image';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Text16 from '../../../component/customText/Text16';
 import LottieView from 'lottie-react-native';
+import {editProfileServices, myProfileDetailsServices} from '../../../services/Services';
+import {useIsFocused} from '@react-navigation/native';
+import UploadModal from '../../../component/modal/UploadModal';
+import { useDispatch } from 'react-redux';
+import { closeLoader, showLoader, sucessTost } from '../../../utils/Helper';
 
 const MyProfile = () => {
+  const isFocused = useIsFocused();
   const [edit, setEdit] = useState(false);
-  const [uploadModal,setUploadModal]=useState(false)
-  const [url,setUrl]=useState('')
+  const [uploadModal, setUploadModal] = useState(false);
+  const [url, setUrl] = useState('');
+  const [type, setType] = useState('');
+  const dispatch=useDispatch()
   const [profileData, setProfileData] = useState({
-    firstName: 'Sachin',
-    lastName: 'Kumar',
-    gender: 'Male',
-    dateOfBirth: '13-4-2001',
-    mobileNumber: '+91 8178055121',
-    email: 'ajit@gmail.com',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dateOfBirth: '',
+    mobileNumber: '',
+    email: '',
+    profilePic: '',
   });
+
+  const getProfileHandeler = async () => {
+    try {
+      let response = await myProfileDetailsServices();
+      console.log(response.data);
+      setProfileData(pre => ({
+        ...pre,
+        firstName: response?.data?.activeUser?.firstName,
+        lastName: response?.data?.activeUser?.lastName,
+        mobileNumber: response?.data?.activeUser?.phoneNumber,
+        email: response?.data?.activeUser?.email,
+        gender: response?.data?.activeUser?.gender,
+        dateOfBirth: response?.data?.activeUser?.dob,
+        profilePic:response?.data?.activeUser?.profilePic
+      }));
+    } catch (error) {
+      console.log(response.data);
+    }
+  };
+
+  const editProfileHandler=async()=>{
+      dispatch(showLoader)
+    try { 
+      let response= await editProfileServices(profileData)
+      console.log(response.data);
+      sucessTost("Profile Update Sucessfully")
+      setEdit(!edit)
+      dispatch(closeLoader)
+    } catch (error) {
+      dispatch(closeLoader)
+      console.log(error.response.data);
+    }
+  }
+
+
+  const updateHandler=()=>{
+    if(edit){
+      editProfileHandler()
+    }
+    else{
+      setEdit(true)
+    }
+  }
 
   const handleChange = (field, value) => {
     setProfileData(prevData => ({
@@ -42,8 +94,13 @@ const MyProfile = () => {
     }));
   };
 
+  // console.log(profileData);
 
-
+  useEffect(() => {
+    if (isFocused) {
+      getProfileHandeler();
+    }
+  }, [isFocused]);
 
   return (
     <View style={CommonStyle.container}>
@@ -57,7 +114,7 @@ const MyProfile = () => {
               style={styles.imgConatiner}>
               <Image
                 source={{
-                  uri: 'https://nftcrypto.io/wp-content/uploads/2023/05/2023-05-18-17_57_18-The-Journey-of-an-NFT-Avatar-Word-Product-Activation-Failed.png',
+                  uri: profileData.profilePic==""?'https://nftcrypto.io/wp-content/uploads/2023/05/2023-05-18-17_57_18-The-Journey-of-an-NFT-Avatar-Word-Product-Activation-Failed.png':profileData.profilePic,
                 }}
                 style={[CommonStyle.img, {borderRadius: 100}]}
               />
@@ -145,16 +202,23 @@ const MyProfile = () => {
       </KeyboardAwareScrollView>
       <View style={{marginVertical: moderateScale(20)}}>
         <Button
-          onPress={() => setEdit(!edit)}
+          onPress={() => updateHandler()}
           text={edit ? 'Save' : 'Edit Profile'}
         />
       </View>
-      <Upload 
-      uploadModal={uploadModal} 
-      setUploadModal={setUploadModal}
-      setUrl={setUrl}
-       />
+      <Upload
+        uploadModal={uploadModal}
+        setUploadModal={setUploadModal}
+        setUrl={setUrl}
+      />
 
+      <UploadModal
+        uploadModal={uploadModal}
+        setUploadModal={setUploadModal}
+        inital={profileData}
+        update={setProfileData}
+        type={'profilePic'}
+      />
     </View>
   );
 };
@@ -181,7 +245,6 @@ const InputWithHeading = ({heading, edit, value, onChangeText}) => {
           style={{fontFamily: fonts.regular, color: colors.gray}}
         />
       </View>
-
     </View>
   );
 };
@@ -204,7 +267,7 @@ const styles = StyleSheet.create({
 });
 export default MyProfile;
 
-const Upload = ({uploadModal,setUploadModal,setUrl}) => {
+const Upload = ({uploadModal, setUploadModal, setUrl}) => {
   const uploadFromCamera = async () => {
     // alert('hello')
     let options = {
@@ -224,11 +287,10 @@ const Upload = ({uploadModal,setUploadModal,setUrl}) => {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         console.log('response', response);
-        setUploadModal(false)
+        setUploadModal(false);
       }
     });
   };
-
 
   const uploadFromGallery = async () => {
     let options = {
@@ -238,12 +300,16 @@ const Upload = ({uploadModal,setUploadModal,setUrl}) => {
     };
     launchImageLibrary(options, response => {
       console.log('response', response);
-      setUploadModal(false)
+      setUploadModal(false);
     });
   };
 
   return (
-    <Modal animationType='slide' visible={uploadModal} transparent statusBarTranslucent>
+    <Modal
+      animationType="slide"
+      visible={uploadModal}
+      transparent
+      statusBarTranslucent>
       <View
         style={{
           flex: 1,
@@ -257,30 +323,57 @@ const Upload = ({uploadModal,setUploadModal,setUrl}) => {
             backgroundColor: colors.white,
             // height: moderateScale(180),
             borderRadius: 10,
-            justifyContent:'center',
-            alignItems:'center',
-            paddingBottom:moderateScale(20),
-            paddingTop:moderateScale(10)
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingBottom: moderateScale(20),
+            paddingTop: moderateScale(10),
           }}>
+          <LottieView
+            height={moderateScale(100)}
+            width={moderateScale(100)}
+            source={require('../../../assets/upload.json')}
+            autoPlay
+            loop
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: '100%',
+            }}>
+            <TouchableOpacity
+              onPress={() => uploadFromGallery()}
+              style={{
+                width: '42%',
+                backgroundColor: colors.yellow,
+                paddingVertical: moderateScale(10),
+                borderRadius: 8,
+                alignItems: 'center',
+              }}>
+              <Text14
+                fontFamily={fonts.regular}
+                mt={1}
+                color={colors.theme}
+                text={'Upload from gallery'}
+              />
+            </TouchableOpacity>
 
-            
-            <LottieView height={moderateScale(100)} width={moderateScale(100)} source={require('../../../assets/upload.json')} autoPlay loop />
-            <View style={{flexDirection:'row',justifyContent:'space-around',width:'100%'}}>
-
-
-            
-          <TouchableOpacity 
-          onPress={()=>uploadFromGallery()}
-          style={{width:'42%',backgroundColor:colors.yellow,paddingVertical:moderateScale(10),borderRadius:8,alignItems:'center'}}>
-            <Text14 fontFamily={fonts.regular} mt={1} color={colors.theme} text={'Upload from gallery'} />
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-          onPress={()=>uploadFromCamera()}
-          style={{borderWidth:1,borderColor:colors.yellow,width:'42%',borderRadius:8,justifyContent:'center',alignItems:'center'}}>
-            <Text14 fontFamily={fonts.regular} mt={1} text={'Take a picture'} />
-          </TouchableOpacity>
-            
+            <TouchableOpacity
+              onPress={() => uploadFromCamera()}
+              style={{
+                borderWidth: 1,
+                borderColor: colors.yellow,
+                width: '42%',
+                borderRadius: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text14
+                fontFamily={fonts.regular}
+                mt={1}
+                text={'Take a picture'}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

@@ -16,16 +16,20 @@ import SignupSeteps from '../../component/common/SignupSeteps';
 import Button from '../../component/customButton/Button';
 import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import {errorTost, sucessTost} from '../../utils/Helper';
+
+import {sucessTost} from '../../utils/Helper';
 import {
-  getLoginOtpServices,
-  loginVerifiyServices,
+  getOtpFromMobileServices,
+  signupServices,
+  verifyMobileOtpServices,
 } from '../../services/Services';
+import { signUpDetails } from '../../utils/localVariable';
 import { setData } from '../../services/AsyncServices';
 
-const LoginOtp = props => {
+const MobileOptVerify = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const btnHandler = () => {
     dispatch({
       type: 'CHANGE_STACK',
@@ -33,72 +37,99 @@ const LoginOtp = props => {
     });
   };
 
-  //   let {route} = props;
+  // let {route} = props;
+  let paramData = props?.route.params?.flow;
+  let value = props?.route.params?.value;
   const isFocused = useIsFocused();
-  let paramData = props?.route?.params?.item;
+  const [checkNum, setCheckNum] = useState(false);
+
+  console.log(value);
+
   // define all state here
-  const [confirm, setConfirm] = useState(null);
-
-  // verification code (OTP - One-Time-Passcode)
-  const [code, setCode] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-
   const [openFlag, setOpenFlag] = useState(false);
   const [matchOtp, setMatchOtp] = useState('');
+
   const [enterOtp, setEnterOtp] = useState('');
   const [seconds, setSeconds] = useState(59);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
-  const [checkNum, setCheckNum] = useState(null);
 
-  const getOtp = async () => {
-    let objToSend = {
-      phoneNumber: paramData,
-    };
-    try {
-      let response = await getLoginOtpServices(objToSend);
-      sucessTost('123456');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const verifyOtp = async () => {
-    let objToSend = {
-      phoneNumber: paramData,
-      otp: 123456,
-    };
-    try {
-      let response = await loginVerifiyServices(objToSend);
-      console.log(response.data);
-      await setData('token', response.data.token);
-      btnHandler();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getOtp();
-  }, []);
+  // const otpHandler = () => {
+  //   navigation.navigate('RegistrationComplete');
+  // };
 
   // const checkPhoneEmail = () => {
-  //   console.log(paramData);
-  //   if (!isNaN(paramData)) {
+  //   if (isNaN(value)) {
   //     setCheckNum(true);
   //   } else {
   //     setCheckNum(false);
   //   }
   // };
 
+  const getOtpFunction = async () => {
+    let objToSend = {
+      phoneNumber: value,
+    };
+    try {
+      let response = await getOtpFromMobileServices(objToSend);
+      console.log(response.data, 'sucess');
+      sucessTost('123456');
+    } catch (error) {
+      console.log(error, 'errror');
+    }
+  };
+
+  const otpHandler = async () => {
+    let objToSend = {
+      email: value,
+      otp: 123456,
+    };
+    try {
+      let response = await verifyMobileOtpServices(objToSend);
+      console.log(response.data);
+      signupHandler()
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
+
+  console.log(signUpDetails,'signUpDetails');
+
+  const signupHandler=async()=>{
+    let objToSend={
+      firstName:signUpDetails.step1?.firstName,
+      lastName:signUpDetails?.step1?.lastName,
+      dob:signUpDetails?.dob,
+      gender:signUpDetails?.gender,
+      email:signUpDetails?.email,
+      phoneNumber:value
+    }
+    try {
+      let response = await signupServices(objToSend)
+      console.log(response.data)
+      await setData('token',response.data.token)
+      navigation.navigate('RegistrationComplete');
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      getOtpFunction();
+    }
+  }, [isFocused]);
+
   // useEffect(() => {
   //   checkPhoneEmail();
   // }, []);
 
-  // useEffect(() => {
-  //   if(checkNum){
-  //     // getOtp1()
-  //   }
-  // }, [checkNum])
+  useEffect(() => {
+    if (checkNum) {
+      console.log('123');
+      // getOtp1()
+    }
+  }, [checkNum]);
 
   // timer start
   // useEffect(() => {
@@ -132,7 +163,7 @@ const LoginOtp = props => {
             color={colors.gray}
             text={`We have sent you a 6 digit verification code on `}
           />
-          <Text14 text={paramData} />
+          <Text14 text={value} />
 
           <OTPInputView
             style={{
@@ -147,28 +178,23 @@ const LoginOtp = props => {
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
             onCodeFilled={code => {
-              // setEnterOtp(code);
-              setCode(code);
+              setEnterOtp(code);
               console.log(`Code is ${code}, you are good to go!`);
             }}
           />
           <Button
-            backgroundColor={colors.yellow}
-            // backgroundColor={code.length<6?colors.placeholderColor:colors.yellow}
-            onPress={() => verifyOtp()}
+            onPress={() => otpHandler()}
             width={'100%'}
             mt={moderateVerticalScale(20)}
             text={'Verify'}
           />
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text14
                 textAlign={'center'}
                 mt={25}
                 color={colors.gray}
-                text={
-                  checkNum ? 'Change my mobile number' : 'Change my email id'
-                }
+                text={'Change my mobile number'}
               />
             </TouchableOpacity>
           </View>
@@ -202,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginOtp;
+export default MobileOptVerify;

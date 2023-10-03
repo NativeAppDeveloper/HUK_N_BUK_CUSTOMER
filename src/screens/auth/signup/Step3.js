@@ -17,7 +17,8 @@ import {CalendarDaysIcon, CheckIcon} from 'react-native-heroicons/solid';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {useNavigation} from '@react-navigation/native';
 import {errorTost} from '../../../utils/Helper';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { signUpDetails } from '../../../utils/localVariable';
 
 const Step3 = () => {
   const [selected, setSelected] = useState('');
@@ -36,24 +37,23 @@ const Step3 = () => {
 
   const handleConfirm = date => {
     let data= new Date(date)
-    
-    let vals=`${data.getFullYear()}-${data.getMonth()+1}-${data.getDate()}`
+    let vals=`${data.getFullYear()}/${data.getMonth()+1}/${data.getDate()}`
     console.log(vals,'9090090')
     setSelected(vals)
     // console.warn('A date has been picked: ', data.getFullYear(),data.getMonth()+1,data.getDate());
     setTimeout(() => {
       hideDatePicker();
-      
     }, 10);
   };
 
-  console.log(selected, '-0-0-0-');
+  // console.log(selected, '-0-0-0-');
 
   const nextHandler = () => {
     if (selected == '') {
       errorTost('Please select date of birth');
       return;
     }
+    signUpDetails.dob=selected
     navigation.navigate('Step4');
   };
   return (

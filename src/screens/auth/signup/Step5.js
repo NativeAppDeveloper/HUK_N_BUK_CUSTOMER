@@ -20,7 +20,7 @@ const Step5 = () => {
 
 
     const nextHandler=()=>{
-        navigation.navigate('Otp',{flow:'phone',value:mobileNo})
+        navigation.navigate('MobileOptVerify',{flow:'phone',value:mobileNo})
 return
      if(mobileNo==''){
         errorTost('Please enter mobile number')
