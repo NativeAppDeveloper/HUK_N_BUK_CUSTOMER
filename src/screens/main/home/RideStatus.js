@@ -67,12 +67,12 @@ export default function RideStatus() {
 
   const rideCompleteHander=()=>{
     setTimeout(() => {
-        setRideComplete(true)
+        // setRideComplete(true)
  
     }, 3000);
 
     setTimeout(() => {
-        setRatingModal(true)
+        // setRatingModal(true)
     }, 5000);
 }
 

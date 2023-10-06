@@ -2,6 +2,7 @@ import {View, Text, Modal, ActivityIndicator} from 'react-native';
 import React from 'react';
 import {moderateScale} from 'react-native-size-matters';
 import { colors } from '../../utils/Styles';
+import LottieView from 'lottie-react-native';
 
 const Loader = () => {
   return (
@@ -15,14 +16,24 @@ const Loader = () => {
         }}>
         <View
           style={{
-            height: moderateScale(50),
-            width: moderateScale(50),
+            height: moderateScale(60),
+            width: moderateScale(60),
             backgroundColor: colors.white,
             borderRadius: 8,
             justifyContent:'center',
-            alignItems:'center'
+            alignItems:'center',
+            overflow:'hidden'
           }}>
-          <ActivityIndicator size={moderateScale(30)} color={colors.yellow} />
+             <LottieView
+             speed={2}
+            source={require("../../assets/Loder.json")}
+            style={{
+              width: moderateScale(90),
+              height: moderateScale(90),
+            }}
+            autoPlay={true}
+          />
+          {/* <ActivityIndicator size={moderateScale(30)} color={colors.yellow} /> */}
         </View>
       </View>
     </Modal>

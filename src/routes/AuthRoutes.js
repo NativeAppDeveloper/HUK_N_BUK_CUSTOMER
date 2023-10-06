@@ -12,13 +12,16 @@ import Step5 from '../screens/auth/signup/Step5';
 import RegistrationComplete from '../screens/auth/signup/RegistrationComplete';
 import LoginOtp from '../screens/auth/LoginOtp';
 import MobileOptVerify from '../screens/auth/MobileOptVerify';
+import { useSelector } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 const AuthRoutes = () => {
+    const {screenName}=useSelector((state)=>state.setIntialScreenAuthReducres)
+    console.log(screenName,'screenName');
     return (
         <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName={!screenName?"Login":"Step1"}
             screenOptions={{
                 headerShown: false,
             }}>

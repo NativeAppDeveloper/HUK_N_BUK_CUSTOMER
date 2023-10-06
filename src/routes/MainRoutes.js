@@ -43,6 +43,8 @@ import QrRideDetails from '../screens/qrFlow/QrRideDetails';
 import SelectPassenger from '../screens/main/home/SelectPassenger';
 import Depart_Arrival from '../screens/main/home/Depart_Arrival';
 import DriverList from '../screens/main/home/DriverList';
+import GooglePlacesInput from '../screens/common/GooglePlacesInput';
+import GooglePlacesInput2 from '../screens/common/GooglePlaceInput2';
 
 
 
@@ -178,6 +180,12 @@ const MainRoutes = () => {
                 <Stack.Screen name="Depart_Arrival" component={Depart_Arrival} />
                 <Stack.Screen name="DriverList" component={DriverList} />
 
+                <Stack.Screen name="GooglePlacesInput" component={GooglePlacesInput} />
+                <Stack.Screen name="GooglePlacesInput2" component={GooglePlacesInput2} />
+
+                
+
+                
                 {/* DriverList */}
                 
                 {/* BidDetails */}

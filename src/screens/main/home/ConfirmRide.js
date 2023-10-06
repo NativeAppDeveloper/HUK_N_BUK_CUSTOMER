@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   TextInput,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Text12 from '../../../component/customText/Text12';
 import Text14 from '../../../component/customText/Text14';
 
@@ -18,7 +19,7 @@ import CustomMapView from '../../../component/CustomMapView';
 import {moderateScale, scale} from 'react-native-size-matters';
 import {CommonStyle, colors, fonts} from '../../../utils/Styles';
 import {icon, images} from '../../../utils/Image';
-import {width} from '../../../utils/Helper';
+import {LOG_COLORS, width} from '../../../utils/Helper';
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
@@ -29,6 +30,14 @@ import Button from '../../../component/customButton/Button';
 import Text16 from '../../../component/customText/Text16';
 import {homeFlow} from '../../../utils/localVariable';
 import LocationText from '../../../component/common/LocationText';
+import {
+  confimRideServices,
+  findDriverServices,
+  findRideDriverServices,
+  myRequestStatusServices,
+} from '../../../services/Services';
+import {useSelector} from 'react-redux';
+import LottieView from 'lottie-react-native';
 
 export default function ConfirmRide() {
   const navigation = useNavigation();
@@ -36,6 +45,14 @@ export default function ConfirmRide() {
   const [offerModal, SetOfferModal] = useState(false);
   const [slectedIndex, setSetlectedIndex] = useState(0);
   const [findDriver, setFindDriver] = useState(false);
+  const {userLocation} = useSelector(state => state.userReducers);
+  const [rideDetails, setRideDetails] = useState(null);
+  const {userDestination} = useSelector(state => state.destinationReducers);
+  const {userLocationDetails} =useSelector((state)=>state.userLocationDeetailsReducers)
+  const {pickUpLocationDetails} = useSelector(state => state.pickupLocationDetailsReducers);
+
+  console.log(userLocationDetails,'yessssss')
+  const isFocused = useIsFocused();
   const data = [
     {
       carName: 'Hatchback',
@@ -54,12 +71,86 @@ export default function ConfirmRide() {
     },
   ];
 
+  // const
+
   console.log(homeFlow.flow);
+
+  const confirmRide = async () => {
+    let objToSend = {
+      // "couponId":"",
+      startLocation:pickUpLocationDetails?.place,
+      startLat: pickUpLocationDetails.latitude,
+      startLong: pickUpLocationDetails.longitude,
+      endLat: userDestination.latitude,
+      endLong: userDestination.longitude,
+      endLocation: userDestination.place,
+      amount: 400,
+      distance: 10,
+    };
+
+    // // console.log(objToSend);
+    // return
+    try {
+      let response = await confimRideServices(objToSend);
+      console.log(LOG_COLORS.red, response.data.addRide, 'yessss');
+      setRideDetails(response.data.addRide);
+      // return;
+      // setTimeout(() => {
+      //   setFindDriver(false);
+      //   navigation.navigate('RideStatus');
+      // }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const findDriverHandler = async () => {
+    console.log('hshsshsh');
+    let objToSend = {
+      vehicleCategoryId: '6516a79e26a0ec9f41577d48',
+      long: userLocation.longitude,
+      lat: userLocation.latitude,
+    };
+    try {
+      let response = await findRideDriverServices(objToSend);
+      console.log(response, 'here');
+      await myRequestStatus();
+      // console.log(LOG_COLORS.pink, JSON.stringify(response.data),'mere wala data');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const myRequestStatus = async () => {
+    // alert('shshs')
+    try {
+      let response = await myRequestStatusServices();
+      // console.log(response.data,'12345');
+      if (response.data.result.requestStatus == 'ACCEPT') {
+        setFindDriver(false);
+        navigation.navigate('RideStatus');
+      }
+    } catch (error) {
+      console.log(error, 'qqqsf;lsdkfjsdkl');
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused && rideDetails !== null) {
+      setInterval(() => {
+        findDriverHandler();
+      }, 2000);
+    }
+  }, []);
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end'}}>
-      <CustomMapView Marker={true} mapStyle={styles.mapStyle} />
-      <LocationText/>
+      <CustomMapView
+        Marker={true}
+        mapStyle={styles.mapStyle}
+        showPolyLine={true}
+      />
+      <LocationText />
 
       <View
         style={{
@@ -87,7 +178,13 @@ Pickup We Are Ready For You`}
                 style={{height: moderateScale(20), width: moderateScale(20)}}>
                 <Image style={CommonStyle.img} source={icon.currentLocation} />
               </View>
-              <Text14 mt={1} text={'  333B, Anchorv  ale Link'} />
+              <View style={{width: '80%'}}>
+                <Text14
+                  numberOfLines={1}
+                  mt={1}
+                  text={userLocationDetails?.formattedAddress}
+                />
+              </View>
             </View>
             <Text14 color={colors.yellow} text={'Search'} />
           </View>
@@ -103,10 +200,7 @@ Pickup We Are Ready For You`}
               }, 1000);
             } else {
               setFindDriver(true);
-              setTimeout(() => {
-                setFindDriver(false);
-                navigation.navigate('RideStatus');
-              }, 1000);
+              confirmRide();
             }
           }}
         />
@@ -141,21 +235,35 @@ const LookingForDriver = ({findDriver, setFindDriver}) => {
           }}>
           <View
             style={{
-              height: moderateScale(60),
-              width: moderateScale(60),
+              // height: moderateScale(60),
+              // width: moderateScale(60),
               alignSelf: 'center',
+              // borderWidth:1
             }}>
-            <Image style={CommonStyle.img} source={icon.Loader} />
+            {/* <LottieView
+            // resizeMode='cover'
+              speed={2}
+              source={require('../../../assets/Loder.json')}
+              style={{
+                width: moderateScale(90),
+                height: moderateScale(90),
+                borderWidth:1
+              }}
+              autoPlay={true}
+            /> */}
+            {/* <Image style={CommonStyle.img} source={icon.Loader} /> */}
           </View>
+
+          <ActivityIndicator color={colors.yellow} size={moderateScale(40)} />
 
           <Text16
             mt={moderateScale(12)}
             color={colors.placeholderColor}
-            fontFamily={fonts.extraLight}
+            fontFamily={fonts.light}
             text={'Please Wait while we are'}
           />
 
-          <Text16 fontFamily={fonts.bold} text={'Looking for Driver'} />
+          <Text16 fontFamily={fonts.semibold} text={'Looking for Driver'} />
         </View>
       </View>
     </Modal>

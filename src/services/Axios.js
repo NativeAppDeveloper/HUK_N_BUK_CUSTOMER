@@ -6,9 +6,9 @@ import { colors } from "../utils/Styles";
 axios.interceptors.request.use(
     async (config) => {
       try {
-        // const token = await getData('token');
-        // config.headers['x-auth-token'] = token;
-        // console.log(token,'Token from axios')
+        const token = await getData('token');
+        config.headers['x-auth-token'] = token;
+        console.log(token,'Token from axios')
         return config;
       } catch (error) {
         return Promise.reject(error);

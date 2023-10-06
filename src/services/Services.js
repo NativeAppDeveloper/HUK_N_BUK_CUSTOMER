@@ -129,7 +129,7 @@ export const changeVehicleStatusService = async body => {
 
 
 export const editProfileServices = async body => {
-  console.log(body,'body');
+  // console.log(body,'body');
   let token = await getData('token');
   let url = `${BASE_URL}editProfile`;
   return await axios.put(url, body, getAxiosHeader(token));
@@ -142,3 +142,31 @@ export const deleteAccountServices = async () => {
   return await axios.delete(url,getAxiosHeader(token));
 };
 
+
+export const findDriverServices = async (data) => {
+  let token = await getData('token');
+  let url = `${BASE_URL}driverList`;
+  return await axios.post(url,data,getAxiosHeader(token));
+};
+
+export const confimRideServices = async (data) => {
+  let token = await getData('token');
+  let url = `${BASE_URL}rideRequest`;
+  return await axios.post(url,data,getAxiosHeader(token));
+};
+
+
+export const findRideDriverServices = async (data) => {
+  let token = await getData('token');
+  console.log({token});
+  let url = `${BASE_URL}findDriver`;
+  return await axios.post(url,data,getAxiosHeader(token));
+};
+
+
+export const myRequestStatusServices = async () => {
+  let token = await getData('token');
+  // console.log({token});
+  let url = `${BASE_URL}myCurrentRequest`;
+  return await axios.get(url, getAxiosHeader(token));
+};

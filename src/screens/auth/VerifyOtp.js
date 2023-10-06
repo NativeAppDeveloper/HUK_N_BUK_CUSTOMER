@@ -15,7 +15,6 @@ import {colors} from '../../utils/Styles';
 import SignupSeteps from '../../component/common/SignupSeteps';
 import Button from '../../component/customButton/Button';
 import {useDispatch} from 'react-redux';
-import auth from '@react-native-firebase/auth';
 import {
   getOtpFromEmailServices,
   verifyEmailOtpServices,
@@ -177,7 +176,7 @@ const VerifyOtp = props => {
                 mt={25}
                 color={colors.gray}
                 text={
-                  !checkNum ? 'Change my email id' : 'Change my mobile number'
+                   'Change my email id' 
                 }
               />
             </TouchableOpacity>

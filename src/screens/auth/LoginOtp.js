@@ -15,7 +15,6 @@ import {colors} from '../../utils/Styles';
 import SignupSeteps from '../../component/common/SignupSeteps';
 import Button from '../../component/customButton/Button';
 import {useDispatch} from 'react-redux';
-import auth from '@react-native-firebase/auth';
 import {errorTost, sucessTost} from '../../utils/Helper';
 import {
   getLoginOtpServices,

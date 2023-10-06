@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -118,8 +119,13 @@ const Location = ({route}) => {
                 backgroundColor: colors.theme,
                 borderRadius: moderateScale(7.5),
               }}></View>
-            <View style={{marginLeft: moderateScale(10)}}>
-              <Text12 fontSize={13} fontFamily={fonts.regular} text={'Surat Railway Station'} />
+            <View style={{marginLeft: moderateScale(10),height:moderateScale(35),justifyContent:'center',width:'70%'}}>
+              {/* <Text12 fontSize={13} fontFamily={fonts.regular} text={'Surat Railway Station'} /> */}
+              <TextInput 
+               placeholder='Enter Destination' 
+               placeholderTextColor={colors.black}
+               style={{fontSize:moderateScale(12),paddingVertical:moderateScale(0)}}
+               />
             </View>
               <TouchableOpacity
               onPress={()=>navigation.goBack()}
@@ -131,6 +137,7 @@ const Location = ({route}) => {
       </View>
 
       {/* pupular cities */}
+      
 
       <View
         style={{

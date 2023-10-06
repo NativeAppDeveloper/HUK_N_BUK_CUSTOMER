@@ -26,7 +26,7 @@ import {useIsFocused} from '@react-navigation/native';
 import UploadModal from '../../../component/modal/UploadModal';
 import { useDispatch } from 'react-redux';
 import { closeLoader, showLoader, sucessTost } from '../../../utils/Helper';
-
+import moment from 'moment';
 const MyProfile = () => {
   const isFocused = useIsFocused();
   const [edit, setEdit] = useState(false);
@@ -191,7 +191,7 @@ const MyProfile = () => {
 
               <InputWithHeading
                 onChangeText={val => handleChange('dateOfBirth', val)}
-                value={profileData.dateOfBirth}
+                value={moment(profileData.dateOfBirth).format('DD-MM-YYYY')}
                 edit={edit}
                 heading={'Date Of Birth'}
               />

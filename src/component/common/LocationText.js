@@ -7,7 +7,7 @@ import { moderateScale, scale } from 'react-native-size-matters'
 import Text12 from '../customText/Text12'
 import { ChevronRightIcon } from 'react-native-heroicons/solid'
 
-const LocationText = () => {
+const LocationText = ({text}) => {
   const navigation=useNavigation()
   return (
     <TouchableOpacity 
@@ -22,10 +22,11 @@ const LocationText = () => {
         left:moderateScale(15),
         paddingHorizontal:scale(10),
         flexDirection:'row',
-        borderRadius:moderateScale(10)
+        borderRadius:moderateScale(10),
+        width:moderateScale(170)
      }}
     >
-        <Text12 color={colors.theme} text={'Surat Railway Station'} />
+        <Text12 numberOfLines={1} color={colors.theme} text={text?text:'Surat Railway Station'} />
         <ChevronRightIcon size={moderateScale(20)} color={colors.theme}/>
     </TouchableOpacity>
   )

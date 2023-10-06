@@ -63,6 +63,7 @@ return
                         //#region Name Components
                         <View style={{ width: '100%' }}>
                             <Input
+                            maxLength={10}
                             onChangeText={(val)=>setMobileNo(val)}
                             value={mobileNo}
                             keyboardType={'numeric'}

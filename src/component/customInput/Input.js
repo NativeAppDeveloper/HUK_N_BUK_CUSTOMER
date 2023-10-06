@@ -9,7 +9,8 @@ export default function Input({
   onChangeText,
   keyboardType,
   fontSize,
-  value
+  value,
+  maxLength
   
 }) {
   return (
@@ -35,6 +36,7 @@ export default function Input({
     }}>
       <TextInput 
       value={value}
+      maxLength={maxLength}
       keyboardType={keyboardType?'number-pad':'default'}
       onChangeText={onChangeText}
       style={{fontFamily:fonts.medium,color:colors.black,fontSize:fontSize?fontSize:14}} placeholderTextColor={colors.placeholderColor} placeholder={placeHolder} />
